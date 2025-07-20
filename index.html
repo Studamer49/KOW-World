@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kids Online World</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    html { scroll-behavior: smooth; }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+    .element {
+  animation-name: bounce;
+  animation-duration: 1s; /* Duration of the animation */
+  animation-timing-function: ease-in-out; /* Animation speed */
+  animation-iteration-count: infinite; /* Repeat the animation */
+}
+  </style>
+</head>
+<body class="bg-gradient-to-br from-sky-100 to-white text-gray-800 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50">
+    <h1 class="text-2xl font-bold text-white animate-bounce">🌍 Kids Online World</h1>
+    <nav class="flex justify-center space-x-2 mb-0">
+      <a href="kow-games.html" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded element">Games</a>
+      <a href="kow-studies.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded element">Studies</a>
+      <a href="kow-quizzes.html" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded element">Quizzes</a>
+      <a href="kow-news.html" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded element">News</a>
+      <a href="kow-videos.html" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded element">Videos</a>
+    </nav>
+  </nav>
+  <!-- Hero Section -->
+  <section class="text-center py-12 px-6">
+    <h2 class="text-4xl font-bold text-blue-600 mb-4">Welcome to a World of Fun & Learning!</h2>
+    <p class="text-lg text-gray-700 max-w-xl mx-auto">
+      Explore cool games, awesome videos, exciting quizzes, and amazing stories — all in one fun place just for kids! 🎉
+    </p>
+  </section>
+
+  <!-- Features Section -->
+  <section class="px-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <div class="bg-yellow-300 p-6 rounded-2xl shadow-xl text-center">
+      <div class="text-5xl mb-3">🎮</div>
+      <h3 class="text-xl font-bold mb-1">Games</h3>
+      <p>Play fun games and learn new things!</p>
+    </div>
+    <div class="bg-red-300 p-6 rounded-2xl shadow-xl text-center">
+      <div class="text-5xl mb-3">📖</div>
+      <h3 class="text-xl font-bold mb-1">Stories</h3>
+      <p>Read exciting short stories and comics.</p>
+    </div>
+    <div class="bg-green-300 p-6 rounded-2xl shadow-xl text-center">
+      <div class="text-5xl mb-3">❓</div>
+      <h3 class="text-xl font-bold mb-1">Quizzes</h3>
+      <p>Test your brain with cool quizzes.</p>
+    </div>
+    <div class="bg-purple-300 p-6 rounded-2xl shadow-xl text-center">
+      <div class="text-5xl mb-3">🗞️</div>
+      <h3 class="text-xl font-bold mb-1">News</h3>
+      <p>Catch up on fun news for kids!</p>
+    </div>
+    <div class="bg-blue-300 p-6 rounded-2xl shadow-xl text-center">
+      <div class="text-5xl mb-3">🚀</div>
+      <h3 class="text-xl font-bold mb-1">Science Zone</h3>
+      <p>Explore science and space wonders.</p>
+    </div>
+    <div class="bg-pink-300 p-6 rounded-2xl shadow-xl text-center">
+      <div class="text-5xl mb-3">🎥</div>
+      <h3 class="text-xl font-bold mb-1">Videos</h3>
+      <p>Watch fun and educational videos.</p>
+    </div>
+  </section>
+
+    <!-- Time Discipline Section -->
+    <section class="px-6 py-10 max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-yellow-600 text-center mb-6">⏰ Learn Time Discipline</h2>
+      <div class="space-y-4">
+        <div class="bg-white p-4 rounded-xl shadow-md">
+          <h4 class="text-lg font-bold text-pink-600">Why Time Matters</h4>
+          <p>Time helps us stay organized, finish homework, and enjoy free time too!</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-md">
+          <h4 class="text-lg font-bold text-pink-600">Make a Daily Schedule</h4>
+          <p>Plan your day with school, play, and rest. Stick to it and feel awesome! 📅</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-md">
+          <h4 class="text-lg font-bold text-pink-600">Set a Timer</h4>
+          <p>Use a timer for tasks like reading, playing, or brushing your teeth.⏳</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-md">
+          <h4 class="text-lg font-bold text-pink-600">Fun Rewards</h4>
+          <p>Finish tasks on time and give yourself a happy reward like stickers or extra game time! 🏆</p>
+        </div>
+      </div>
+    </section>
+     
+ <!-- Studies Section -->
+ <section class="px-6 py-10 max-w-4xl mx-auto">
+  <h2 class="text-3xl font-bold text-green-600 text-center mb-6">📘 Fun Study Time</h2>
+  <div class="space-y-4">
+    <div class="bg-white p-4 rounded-xl shadow-md">
+      <h4 class="text-lg font-bold text-blue-600">Math Magic 🧮</h4>
+      <p>Learn cool tricks to solve math problems easily and have fun with numbers!</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-md">
+      <h4 class="text-lg font-bold text-blue-600">Grammar Games ✍️</h4>
+      <p>Make your English strong with interactive grammar games and fun challenges.</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-md">
+      <h4 class="text-lg font-bold text-blue-600">Science Fun 🌱</h4>
+      <p>Explore how things work around you with cool experiments and facts!</p>
+    </div>
+  </div>
+</section>
+
+  <!-- News Section -->
+  <section class="px-6 py-10 max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold text-blue-600 text-center mb-6">🗞️ Latest News for Kids</h2>
+    <div class="space-y-4">
+      <div class="bg-white p-4 rounded-xl shadow-md">
+        <h4 class="text-lg font-bold text-pink-600">NASA's New Rocket Launches!</h4>
+        <p>NASA successfully launched a new rocket that might take humans to Mars one day!</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-md">
+        <h4 class="text-lg font-bold text-pink-600">World's Largest Ice Cream!</h4>
+        <p>A team in Italy created the world’s biggest ice cream cone – taller than a giraffe! 🍦</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-md">
+        <h4 class="text-lg font-bold text-pink-600">Young Chess Champ Wins Big</h4>
+        <p>A 10-year-old kid from India wins international chess tournament! ♟️</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games Section -->
+  <section class="px-6 py-10 max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold text-blue-600 text-center mb-6">🕹️ Let's Play Some Fun Games!</h2>
+    <div class="space-y-4">
+      <ul class="list-disc pl-6 space-y-2 text-gray-700">
+        <li class="bg-white p-4 rounded-xl shadow-md">
+          <a href="kow-memory.html"class="text-lg font-bold text-pink-600 hover:underline">🧠Memory Match</a>
+       <p>Match different pictures just by memory!</p>
+        </li>
+        <li class="bg-white p-4 rounded-xl shadow-md">
+          <a href="kow-puzzle.html" class="text-lg font-bold text-pink-600 hover:underline">🧩Puzzle Blast</a>
+       <p>Solve puzzles and become a ninja!</p>
+        </li>
+        <li class="bg-white p-4 rounded-xl shadow-md">
+          <a href="kow-word.html" class="text-lg font-bold text-pink-600 hover:underline">🔤Word Hunt</a>
+        <p>Search for the words!</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <!-- Science Zone -->
+  <section class="px-6 py-10 max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold text-purple-600 text-center mb-6">🧪 Science Zone</h2>
+    <div class="space-y-4">
+    <div class="bg-white p-4 rounded-xl shadow-md">
+      <h4 class="text-lg font-bold text-pink-600">DIY Volcano Experiment</h4>
+      <p>Make a DIY volcano!</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-md">
+      <h4 class="text-lg font-bold text-pink-600">Why do stars twinkle?</h4>
+      <p>Find out about why stars twinkle</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-md">
+      <h4 class="text-lg font-bold text-pink-600">What is Gravity?</h4>
+      <p>How did Isaac Newton dicover it too?</p>
+    </div>
+      <div class="bg-white p-4 rounded-xl shadow-md">
+      <h4 class="text-lg font-bold text-pink-600">Cool facts about Dinosaurs</h4>
+      <p>Learn some cool facts about dinosaurs!</p>
+    </div>
+  </section>
+
+  <!-- Videos Section -->
+<section class="px-6 py-10 max-w-4xl mx-auto">
+  <h2 class="text-3xl font-bold text-red-500 text-center mb-6">🎥 Awesome Videos</h2>
+  <div class="space-y-4">
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+      <li class="bg-white p-4 rounded-xl shadow-md">
+        <a href="https://www.youtube.com/watch?v=9idkBoobXyI" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-pink-600 hover:underline">Learn to Draw a Cartoon Cat 🐱</a>
+      </li>
+      <li class="bg-white p-4 rounded-xl shadow-md">
+        <a href="https://www.youtube.com/watch?v=DE5XSlvYY5o" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-pink-600 hover:underline">Space Journey Animation 🚀</a>
+      </li>
+      <li class="bg-white p-4 rounded-xl shadow-md">
+        <a href="https://www.youtube.com/watch?v=39ColarOWKo" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-pink-600 hover:underline">Funny Animal Clips 🐒</a>
+      </li>
+      <li class="bg-white p-4 rounded-xl shadow-md">
+        <a href="https://www.youtube.com/watch?v=lgxJRTPZFU8" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-pink-600 hover:underline">Simple Science Tricks 🔬</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+  <!-- Scroll to Top Button -->
+  <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+  class="fixed bottom-6 right-6 bg-yellow-400 text-white px-4 py-2 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 ease-in-out">
+  ⬆️ Top
+</button>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 py-6 mt-10 text-gray-600 text-sm">
+    <div class="max-w-md mx-auto text-center">
+      © 2025 Kids Online World | Made with ❤️ by Vivu ✨
+    </div>
+  </footer>  
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Match Game</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .card {
+      width: 80px;
+      height: 80px;
+      background-color: #f87171;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+    }
+    .matched {
+      background-color: #10b981;
+      cursor: default;
+    }
+  </style>
+</head>
+<body class="bg-red-100 text-center p-6">
+  <nav class="flex justify-center space-x-4 mb-6">
+    <a href="index.html" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">🏠 Home</a>
+    <a href="kow-games.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">🎮 Games</a>
+  </nav>
+
+  <h1 class="text-3xl font-bold text-red-600">🧠 Memory Match Game</h1>
+  <p class="mt-2 text-gray-700">Click on the cards to match the pairs!</p>
+
+  <div class="grid" id="gameBoard"></div>
+
+  <button onclick="startGame()" class="mt-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">🔄 Restart</button>
+
+<script>
+    const icons = ['🐶','🐱','🦊','🐻','🐼','🐸','🐵','🐯'];
+    let cards = [];
+    let flipped = [];
+    let matched = [];
+
+    function startGame() {
+      const board = document.getElementById('gameBoard');
+      board.innerHTML = '';
+      matched = [];
+      flipped = [];
+      cards = shuffle([...icons, ...icons]);
+
+      cards.forEach((icon, i) => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.dataset.index = i;
+        div.onclick = () => flipCard(div, icon);
+        board.appendChild(div);
+      });
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function flipCard(div, icon) {
+      const index = div.dataset.index;
+      if (matched.includes(index) || flipped.includes(index) || flipped.length === 2) return;
+
+      div.textContent = icon;
+      flipped.push(index);
+
+      if (flipped.length === 2) {
+        const [i1, i2] = flipped;
+        const d1 = document.querySelector(`[data-index='${i1}']`);
+        const d2 = document.querySelector(`[data-index='${i2}']`);
+        if (cards[i1] === cards[i2]) {
+          matched.push(i1, i2);
+          d1.classList.add('matched');
+          d2.classList.add('matched');
+        } else {
+          setTimeout(() => {
+            d1.textContent = '';
+            d2.textContent = '';
+          }, 800);
+        }
+        flipped = [];
+      }
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
