@@ -9,7 +9,7 @@
   <style>
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
+      grid-template-columns: repeat(9, 1fr);
       grid-gap: 5px;
       justify-content: center;
       margin-bottom: 20px;
@@ -78,7 +78,9 @@
       <!-- Word list will be populated here -->
   </div>
 
-  <div id="game-won-message" class="hidden text-6xl font-bold text-green-600 my-4">You Win!</div>
+  <div id="game-won-message" class="hidden fixed inset-0 flex items-center justify-center pointer-events-none">
+    <h1 class="text-6xl font-bold text-green-600" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">You Win!</h1>
+  </div>
 
   <div class="mt-6 space-x-4">
     <button onclick="restartGame()" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">🔄 Restart Game</button>
@@ -86,7 +88,7 @@
 
   <script>
     const wordPool = ["CAT", "DOG", "LION", "TIGER", "GIRAFFE", "ELEPHANT", "ZEBRA", "MONKEY", "HORSE", "PANDA", "KOALA", "BIRD", "FISH", "SHEEP", "COW", "DEER", "RABBIT", "BAT", "WOLF", "BEAR", "SNAKE", "EAGLE", "OWL", "PARROT", "DOLPHIN", "SHARK"];
-    const gridSize = 10;
+    const gridSize = 9;
     const grid = [];
     let wordList = [];
     let placedWords = [];
@@ -201,32 +203,40 @@
     }
 
     function checkForFoundWord() {
-        const selectedWord = selectedCells.map(cell => grid[cell.row][cell.col]).join('');
+        const selectedLetters = selectedCells.map(cell => grid[cell.row][cell.col]);
+        const sortedSelectedLetters = selectedLetters.sort().join('');
 
         for (const pWord of placedWords) {
-            if (!pWord.found && pWord.word === selectedWord) {
-                // Check if the selected cells match the coordinates of the placed word
-                if (pWord.coords.every(coord => selectedCells.some(sc => sc.row === coord.row && sc.col === coord.col)) &&
-                    pWord.coords.length === selectedCells.length) {
-                    
-                    pWord.found = true;
-                    const color = foundColors[foundWordsCount % foundColors.length];
-                    foundWordsCount++;
+            if (!pWord.found) {
+                const sortedWord = pWord.word.split('').sort().join('');
 
-                    pWord.coords.forEach(coord => {
-                        const cellEl = document.querySelector(`[data-row="${coord.row}"][data-col="${coord.col}"]`);
-                        cellEl.classList.remove('highlight');
-                        cellEl.style.backgroundColor = color;
-                    });
-                    
-                    document.getElementById(`word-list-${pWord.word}`).classList.add('found');
-                    selectedCells = []; // Clear selection
+                if (sortedWord === sortedSelectedLetters) {
+                    // The letters match, now check if the coordinates match
+                    if (pWord.coords.every(coord => selectedCells.some(sc => sc.row === coord.row && sc.col === coord.col)) &&
+                        pWord.coords.length === selectedCells.length) {
+                        
+                        pWord.found = true;
+                        const color = foundColors[foundWordsCount % foundColors.length];
+                        foundWordsCount++;
 
-                    if (foundWordsCount === wordList.length) {
-                        document.getElementById("game-won-message").classList.remove("hidden");
-                        confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+                        pWord.coords.forEach(coord => {
+                            const cellEl = document.querySelector(`[data-row="${coord.row}"][data-col="${coord.col}"]`);
+                            cellEl.classList.remove('highlight');
+                            cellEl.style.backgroundColor = color;
+                        });
+                        
+                        document.getElementById(`word-list-${pWord.word}`).classList.add('found');
+                        selectedCells = []; // Clear selection
+
+                        // Unhighlight all cells after a word is found
+                        document.querySelectorAll('.grid-item.highlight').forEach(el => el.classList.remove('highlight'));
+
+                        if (foundWordsCount === wordList.length) {
+                            document.getElementById("game-won-message").classList.remove("hidden");
+                            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+                        }
+                        return; // Exit after finding one word
                     }
-                    return; // Exit after finding one word
                 }
             }
         }
