@@ -9,7 +9,7 @@
   <style>
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(8, 50px);
+      grid-template-columns: repeat(16, 50px);
       grid-gap: 5px;
       justify-content: center;
       margin-bottom: 20px;
@@ -65,19 +65,18 @@
       <!-- Word list will be populated here -->
   </div>
 
-  <div id="game-won-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="text-center">
-      <h1 class="text-6xl font-bold text-white">Game Won!</h1>
-    </div>
+  <div id="game-won-overlay" class="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center" style="z-index: 10;">
+    <h1 class="text-6xl font-bold text-pink-600">Game Won!</h1>
   </div>
 
   <div class="mt-6 space-x-4">
     <button onclick="restartGame()" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">🔄 Restart Game</button>
+    <button onclick="restartGame()" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">▶️ Play Again</button>
   </div>
 
   <script>
-    const wordPool = ["CAT", "DOG", "LION", "TIGER", "GIRAFFE", "ELEPHANT", "ZEBRA", "MONKEY", "HORSE", "PANDA", "KOALA", "BIRD", "FISH", "SHEEP", "COW", "DEER", "RABBIT", "BAT", "WOLF", "BEAR", "SNAKE", "EAGLE", "OWL", "PARROT", "DOLPHIN", "SHARK"];
-    const gridSize = 8;
+    const wordPool = ["CAT", "DOG", "LION", "TIGER", "GIRAFFE", "ELEPHANT", "ZEBRA", "MONKEY", "HORSE", "PANDA", "KOALA", "BIRD", "FISH", "SHEEP", "COW", "DEER", "RABBIT", "BAT", "WOLF", "BEAR", "SNAKE", "EAGLE", "OWL", "PARROT", "DOLPHIN", "SHARK", "WHALE", "PENGUIN", "KANGAROO", "HIPPO", "RHINO", "CROCODILE", "ALLIGATOR", "CHICKEN", "DUCK", "GOOSE", "TURKEY", "PIG", "FOX", "DEER", "MOOSE", "SQUIRREL", "HEDGEHOG", "OTTER", "BEAVER", "RACCOON", "SKUNK", "BADGER", "WEASEL", "FERRET", "MINK", "SEAL", "WALRUS", "POLARBEAR", "GRIZZLY", "BROWNBEAR", "BLACKBEAR", "COUGAR", "JAGUAR", "LEOPARD", "CHEETAH", "HYENA", "GORILLA", "CHIMPANZEE", "ORANGUTAN", "BABOON", "LEMUR", "SLOTH", "ANTEATER", "ARMADILLO", "PLATYPUS", "ECHIDNA", "KOOKABURRA", "EMU", "OSTRICH", "KIWI", "TOUCAN", "FLAMINGO", "PELICAN", "SWAN", "CRANE", "HERON", "KINGFISHER", "PUFFIN", "ALBATROSS", "CONDOR", "VULTURE", "FALCON", "HAWK", "KITE", "BUZZARD", "ROBIN", "SPARROW", "WREN", "FINCH", "CANARY", "MAGPIE", "CROW", "RAVEN", "JAY", "STARLING", "THRUSH", "BLACKBIRD", "NIGHTINGALE", "CUCKOO", "WOODPECKER", "HUMMINGBIRD", "SWALLOW", "MARTIN", "SWIFT", "DOVE", "PIGEON", "QUAIL", "PHEASANT", "PARTRIDGE", "GROUSE", "PTARMIGAN", "SNIPE", "WOODCOCK", "LAPWING", "PLOVER", "OYSTERCATCHER", "SANDPIPER", "DUNLIN", "CURLEW", "GODWIT", "TERN", "GULL", "KITTIWAKE", "GANNET", "CORMORANT", "FRIGATEBIRD", "BOOBY", "PETREL", "SHEARWATER", "STORM PETREL", "DIVING PETREL", "AUK", "MURRE", "GUILLEMOT", "RAZORBILL", "PUFFIN", "SKUA", "JAEGER", "LOON", "GREBE", "DIVER", "COOT", "MOORHEN", "GALLINULE", "RAIL", "CRAKE", "BITTERN", "HERON", "EGRET", "SPOONBILL", "IBIS", "STORK", "CRANE", "FLAMINGO", "PELICAN", "GANNET", "CORMORANT", "ANHINGA", "DARTER", "FREGATEBIRD", "TROPICBIRD", "PENGUIN", "ALBATROSS", "FULMAR", "PRION", "SHEARWATER", "STORM PETREL", "DIVING PETREL", "AUK", "MURRE", "GUILLEMOT", "RAZORBILL", "PUFFIN", "SKUA", "JAEGER", "LOON", "GREBE", "DIVER", "COOT", "MOORHEN", "GALLINULE", "RAIL", "CRAKE", "BITTERN", "HERON", "EGRET", "SPOONBILL", "IBIS", "STORK", "CRANE", "FLAMINGO", "PELICAN", "GANNET", "CORMORANT", "ANHINGA", "DARTER", "FREGATEBIRD", "TROPICBIRD"];
+    const gridSize = 16;
     const grid = [];
     let wordList = [];
     let placedWords = [];
