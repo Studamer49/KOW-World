@@ -3,43 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Puzzle Game - Harder Version</title>
+  <title>Puzzle Game - Sliding Puzzle</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <style>
-    .puzzle-piece {
-      width: 75px;
-      height: 75px;
-      background-color: #ddd;
-      border: 2px solid #444;
-      margin: 5px;
-      display: inline-block;
-      text-align: center;
-      line-height: 75px;
-      cursor: pointer;
-      border-radius: 8px;
-    }
     #puzzle-container {
       display: grid;
-      grid-template-columns: repeat(4, 75px);
-      grid-gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 2px;
       justify-content: center;
-      margin-bottom: 30px;
+      margin: 20px auto;
+      max-width: 400px;
+      border: 3px solid #333;
+      background-color: #666;
+      aspect-ratio: 1 / 1;
     }
-    .puzzle-piece:hover {
-      background-color: #ffcc00;
-    }
-    #puzzle-target {
-      display: grid;
-      grid-template-columns: repeat(4, 75px);
-      grid-gap: 10px;
+    .puzzle-piece {
+      display: flex;
+      align-items: center;
       justify-content: center;
-      border: 2px dashed #444;
-      padding: 20px;
-      margin-bottom: 30px;
-      background-color: #fff;
-      width: 340px;
-      height: 340px;
-      margin: 0 auto;
+      font-size: 2em;
+      font-weight: bold;
+      color: #333;
+      background-color: #f0f0f0;
+      border: 1px solid #fff;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+    .puzzle-piece.empty {
+      background-image: none;
+      background-color: #666;
+      cursor: default;
     }
     #celebration {
       display: none;
@@ -49,80 +42,110 @@
     }
   </style>
 </head>
-<body class="bg-blue-100 text-center p-6">
-  <nav class="mb-6 space-x-4">
-    <a href="index.html" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">🏠 Home</a>
-    <a href="kow-games.html" class="inline-block bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">🎮 Games</a>
-  </nav>
-
-  <h1 class="text-3xl font-bold text-pink-600">🧩 Harder Puzzle Game</h1>
-  <p class="text-gray-700 mt-2">Drag and place the pieces in the correct order!</p>
-
-  <div id="puzzle-container">
-    <div class="puzzle-piece" draggable="true" id="piece1" ondragstart="drag(event)">1</div>
-    <div class="puzzle-piece" draggable="true" id="piece2" ondragstart="drag(event)">2</div>
-    <div class="puzzle-piece" draggable="true" id="piece3" ondragstart="drag(event)">3</div>
-    <div class="puzzle-piece" draggable="true" id="piece4" ondragstart="drag(event)">4</div>
-    <div class="puzzle-piece" draggable="true" id="piece5" ondragstart="drag(event)">5</div>
-    <div class="puzzle-piece" draggable="true" id="piece6" ondragstart="drag(event)">6</div>
-    <div class="puzzle-piece" draggable="true" id="piece7" ondragstart="drag(event)">7</div>
-    <div class="puzzle-piece" draggable="true" id="piece8" ondragstart="drag(event)">8</div>
-    <div class="puzzle-piece" draggable="true" id="piece9" ondragstart="drag(event)">9</div>
-    <div class="puzzle-piece" draggable="true" id="piece10" ondragstart="drag(event)">10</div>
-    <div class="puzzle-piece" draggable="true" id="piece11" ondragstart="drag(event)">11</div>
-    <div class="puzzle-piece" draggable="true" id="piece12" ondragstart="drag(event)">12</div>
-    <div class="puzzle-piece" draggable="true" id="piece13" ondragstart="drag(event)">13</div>
-    <div class="puzzle-piece" draggable="true" id="piece14" ondragstart="drag(event)">14</div>
-    <div class="puzzle-piece" draggable="true" id="piece15" ondragstart="drag(event)">15</div>
-    <div class="puzzle-piece" draggable="true" id="piece16" ondragstart="drag(event)">16</div>
+<body class="bg-blue-100 text-center p-6 pt-20">
+  <div class="fixed top-0 left-0 w-full bg-blue-100 p-4 z-50 flex flex-wrap justify-center">
+    <a href="index.html" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded m-1">🏠 Home</a>
+    <a href="kow-games.html" class="inline-block bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded m-1">🎮 Games</a>
+    <button onclick="startGame()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded m-1">🔄 Restart Game</button>
   </div>
 
-  <div id="puzzle-target">
-    <!-- Empty target cells where pieces will be dropped -->
-  </div>
+  <h1 class="text-3xl font-bold text-pink-600">🧩 Sliding Puzzle</h1>
+  <p class="text-gray-700 mt-2">Click a tile next to the empty space to move it.</p>
+
+  <div id="puzzle-container"></div>
 
   <div id="celebration" class="mt-6 text-2xl font-bold text-green-600">🎉 Well Done! You solved the puzzle! 🎉</div>
-  
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
-    function drag(ev) {
-      ev.dataTransfer.setData("text", ev.target.id);
+    const puzzleContainer = document.getElementById('puzzle-container');
+    const celebration = document.getElementById('celebration');
+    const gridSize = 3;
+    let tiles = [];
+    let emptyTile = { row: 2, col: 2 };
+
+    function createTile(index, row, col) {
+      const tile = document.createElement('div');
+      tile.className = 'puzzle-piece';
+      
+      if (index === gridSize * gridSize - 1) {
+        tile.classList.add('empty');
+      } else {
+        tile.textContent = index + 1;
+      }
+      
+      tile.onclick = () => moveTile(row, col);
+      return tile;
     }
 
-    document.getElementById("puzzle-target").addEventListener("dragover", function (ev) {
-      ev.preventDefault();
-    });
+    function moveTile(row, col) {
+      const dr = Math.abs(row - emptyTile.row);
+      const dc = Math.abs(col - emptyTile.col);
 
-    document.getElementById("puzzle-target").addEventListener("drop", function (ev) {
-      ev.preventDefault();
-      const data = ev.dataTransfer.getData("text");
-      const draggedElement = document.getElementById(data);
-      ev.target.appendChild(draggedElement);
-      checkPuzzle();
-    });
-
-    function checkPuzzle() {
-      const pieces = document.querySelectorAll("#puzzle-target .puzzle-piece");
-      if (pieces.length === 16 &&
-          pieces[0].id === "piece1" &&
-          pieces[1].id === "piece2" &&
-          pieces[2].id === "piece3" &&
-          pieces[3].id === "piece4" &&
-          pieces[4].id === "piece5" &&
-          pieces[5].id === "piece6" &&
-          pieces[6].id === "piece7" &&
-          pieces[7].id === "piece8" &&
-          pieces[8].id === "piece9" &&
-          pieces[9].id === "piece10" &&
-          pieces[10].id === "piece11" &&
-          pieces[11].id === "piece12" &&
-          pieces[12].id === "piece13" &&
-          pieces[13].id === "piece14" &&
-          pieces[14].id === "piece15" &&
-          pieces[15].id === "piece16") {
-        document.getElementById("celebration").style.display = "block";
+      if ((dr === 1 && dc === 0) || (dr === 0 && dc === 1)) {
+        const tileIndex = row * gridSize + col;
+        const emptyIndex = emptyTile.row * gridSize + emptyTile.col;
+        
+        [tiles[tileIndex], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[tileIndex]];
+        [emptyTile.row, emptyTile.col] = [row, col];
+        
+        render();
+        checkWin();
       }
     }
+
+    function render() {
+      puzzleContainer.innerHTML = '';
+      for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+          const index = i * gridSize + j;
+          const tileData = tiles[index];
+          const tile = createTile(tileData, i, j);
+          puzzleContainer.appendChild(tile);
+        }
+      }
+    }
+
+    function checkWin() {
+      for (let i = 0; i < tiles.length - 1; i++) {
+        if (tiles[i] !== i) {
+          celebration.style.display = 'none';
+          return;
+        }
+      }
+      celebration.style.display = 'block';
+      confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+    }
+
+    function shuffle() {
+      let lastMove = -1; 
+      for (let i = 0; i < 1000; i++) {
+        const possibleMoves = [];
+        const { row, col } = emptyTile;
+
+        if (row > 0 && lastMove !== 0) possibleMoves.push(0); // Up
+        if (row < gridSize - 1 && lastMove !== 1) possibleMoves.push(1); // Down
+        if (col > 0 && lastMove !== 2) possibleMoves.push(2); // Left
+        if (col < gridSize - 1 && lastMove !== 3) possibleMoves.push(3); // Right
+        
+        const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+
+        if (move === 0) { moveTile(row - 1, col); lastMove = 1; }
+        if (move === 1) { moveTile(row + 1, col); lastMove = 0; }
+        if (move === 2) { moveTile(row, col - 1); lastMove = 3; }
+        if (move === 3) { moveTile(row, col + 1); lastMove = 2; }
+      }
+    }
+
+    function startGame() {
+      tiles = Array.from({ length: gridSize * gridSize }, (_, i) => i);
+      emptyTile = { row: gridSize - 1, col: gridSize - 1 };
+      celebration.style.display = 'none';
+      shuffle();
+      render();
+    }
+
+    startGame();
   </script>
-    <button onclick="startGame()" class="mt-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">🔄 Restart</button>
 </body>
 </html>
