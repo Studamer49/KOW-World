@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KOW Studies</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    html { scroll-behavior: smooth; }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .nav-links a {
+      padding: 0.5rem 1rem;
+      width: 100%;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        width: auto;
+      }
+      #menu-button {
+        display: none;
+      }
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+    .element {
+      animation-name: bounce;
+      animation-duration: 1s; /* Duration of the animation */
+      animation-timing-function: ease-in-out; /* Animation speed */
+      animation-iteration-count: infinite; /* Repeat the animation */
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-sky-100 to-white text-gray-800 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
+    <h1 class="text-2xl font-bold text-white animate-bounce">🌍 Kids Online World</h1>
+    <button id="menu-button" class="text-white md:hidden">☰</button>
+    <nav id="nav-links" class="nav-links w-full md:w-auto md:flex md:space-x-2">
+      <a href="index.html" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded element">Home</a>
+      <a href="kow-games.html" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded element">Games</a>
+      <a href="kow-quizzes.html" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded element">Quizzes</a>
+      <a href="kow-news.html" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded element">News</a>
+      <a href="kow-videos.html" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded element">Videos</a>
+    </nav>
+  </nav>
+
+  <div class="container mx-auto p-6">
+    <h1 class="text-4xl font-bold text-blue-600 text-center mb-8">KOW Studies - Educational Content</h1>
+
+    <section id="math" class="mb-8 p-6 bg-white rounded-xl shadow-md">
+        <h2 class="text-3xl font-bold text-green-600 mb-4">Math</h2>
+        <p class="text-lg text-gray-700 mb-4">Explore various math topics from basic arithmetic to advanced calculus.</p>
+        <ul class="space-y-4">
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.khanacademy.org/math/algebra" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Algebra Basics</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.khanacademy.org/math/geometry" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Geometry Fundamentals</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.khanacademy.org/math/calculus-1" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Introduction to Calculus</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.khanacademy.org/math/statistics-probability" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Statistics for Beginners</a>
+            </li>
+        </ul>
+    </section>
+
+    <section id="grammar" class="mb-8 p-6 bg-white rounded-xl shadow-md">
+        <h2 class="text-3xl font-bold text-green-600 mb-4">Grammar</h2>
+        <p class="text-lg text-gray-700 mb-4">Improve your language skills with our comprehensive grammar guides.</p>
+        <ul class="space-y-4">
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.grammarly.com/blog/parts-of-speech/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Parts of Speech</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.grammarly.com/blog/sentence-structure/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Sentence Structure</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.grammarly.com/blog/punctuation-rules/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Punctuation Rules</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.grammarly.com/blog/common-grammar-mistakes/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Common Grammar Mistakes</a>
+            </li>
+        </ul>
+    </section>
+
+    <section id="science" class="mb-8 p-6 bg-white rounded-xl shadow-md">
+        <h2 class="text-3xl font-bold text-green-600 mb-4">Science</h2>
+        <p class="text-lg text-gray-700 mb-4">Dive into the fascinating world of science, covering Physics, Chemistry, and Biology.</p>
+        <ul class="space-y-4">
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.khanacademy.org/science/physics" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Physics Principles</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.khanacademy.org/science/chemistry" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Chemical Reactions</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.khanacademy.org/science/biology" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Biology: Cells and Life</a>
+            </li>
+            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                <a href="https://www.nationalgeographic.org/encyclopedia/environmental-science/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Environmental Science</a>
+            </li>
+        </ul>
+    </section>
+  </div>
+
+  <!-- Scroll to Top Button -->
+  <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+  class="fixed bottom-6 right-6 bg-yellow-400 text-white px-4 py-2 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 ease-in-out">
+  ⬆️ Top
+</button>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 py-6 mt-10 text-gray-600 text-sm">
+    <div class="max-w-md mx-auto text-center">
+      © 2025 Kids Online World | Made with ❤️ by Vivu ✨
+    </div>
+  </footer>
+  <script>
+    document.getElementById('menu-button').addEventListener('click', function() {
+      var navLinks = document.getElementById('nav-links');
+      if (navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      } else {
+        navLinks.style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>
