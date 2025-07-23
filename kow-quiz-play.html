@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOW | Quiz Play</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    .question-container { margin-bottom: 1.5rem; padding: 1.5rem; background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+    .options label { display: block; margin-bottom: 0.5rem; cursor: pointer; }
+    .options input[type="radio"] { margin-right: 0.5rem; }
+    .feedback { margin-top: 1rem; font-weight: bold; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-green-100 to-white text-gray-800 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
+    <h1 class="text-2xl font-bold text-white animate-bounce">❓ KOW Quiz</h1>
+    <a href="index.html" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">🏠 Home</a>
+    <a href="kow-quizzes.html" class="inline-block bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">Back to Quizzes</a>
+  </nav>
+
+  <section class="px-6 py-10 max-w-4xl mx-auto">
+    <h2 id="quiz-title" class="text-3xl font-bold text-green-600 text-center mb-6"></h2>
+    <form id="quiz-form">
+      <div id="questions-container"></div>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">Submit Quiz</button>
+    </form>
+    <div id="quiz-results" class="mt-6 text-center text-2xl font-bold"></div>
+  </section>
+
+  <script>
+    const quizzes = {
+      gk: [
+        { question: "What is the capital of France?", options: ["London", "Paris", "Rome", "Berlin"], answer: "Paris" },
+        { question: "How many continents are there?", options: ["5", "6", "7", "8"], answer: "7" },
+        { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: "Mars" },
+        { question: "What is the largest ocean on Earth?", options: ["Atlantic", "Indian", "Arctic", "Pacific"], answer: "Pacific" },
+        { question: "Who painted the Mona Lisa?", options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"], answer: "Leonardo da Vinci" },
+        { question: "What is the highest mountain in the world?", options: ["K2", "Mount Everest", "Kangchenjunga", "Lhotse"], answer: "Mount Everest" },
+        { question: "Which animal is known as the 'Ship of the Desert'?", options: ["Camel", "Horse", "Elephant", "Lion"], answer: "Camel" },
+        { question: "What is the chemical symbol for water?", options: ["O2", "H2O", "CO2", "NaCl"], answer: "H2O" },
+        { question: "How many legs does a spider have?", options: ["6", "8", "10", "4"], answer: "8" },
+        { question: "What is the hardest natural substance on Earth?", options: ["Gold", "Iron", "Diamond", "Quartz"], answer: "Diamond" }
+      ],
+      math: [
+        { question: "What is 5 x 8?", options: ["35", "40", "45", "50"], answer: "40" },
+        { question: "What is 12 + 19?", options: ["29", "31", "30", "21"], answer: "31" },
+        { question: "What is 100 / 4?", options: ["20", "25", "30", "15"], answer: "25" },
+        { question: "What is 7 squared?", options: ["49", "14", "70", "77"], answer: "49" },
+        { question: "What is the square root of 81?", options: ["7", "8", "9", "10"], answer: "9" },
+        { question: "If a dozen eggs costs $3, how much do 4 eggs cost?", options: ["$1", "$1.50", "$2", "$0.75"], answer: "$1" },
+        { question: "What is 25% of 200?", options: ["25", "50", "75", "100"], answer: "50" },
+        { question: "What is the next number in the sequence: 2, 4, 6, 8, ...?", options: ["9", "10", "12", "11"], answer: "10" },
+        { question: "How many sides does a hexagon have?", options: ["5", "6", "7", "8"], answer: "6" },
+        { question: "What is 30 - 13?", options: ["15", "17", "13", "20"], answer: "17" }
+      ],
+      animals: [
+        { question: "Which animal is the king of the jungle?", options: ["Tiger", "Lion", "Elephant", "Bear"], answer: "Lion" },
+        { question: "Which bird can fly backwards?", options: ["Eagle", "Hummingbird", "Sparrow", "Pigeon"], answer: "Hummingbird" },
+        { question: "What is the fastest land animal?", options: ["Lion", "Gazelle", "Cheetah", "Horse"], answer: "Cheetah" },
+        { question: "Which sea animal has 8 arms?", options: ["Fish", "Shark", "Octopus", "Dolphin"], answer: "Octopus" },
+        { question: "What is a baby goat called?", options: ["Calf", "Kid", "Lamb", "Pup"], answer: "Kid" },
+        { question: "Which animal lays the largest egg?", options: ["Chicken", "Ostrich", "Eagle", "Penguin"], answer: "Ostrich" },
+        { question: "What is the only mammal that can truly fly?", options: ["Bird", "Bat", "Squirrel", "Glider"], answer: "Bat" },
+        { question: "Which animal is known for its long neck?", options: ["Elephant", "Zebra", "Giraffe", "Camel"], answer: "Giraffe" },
+        { question: "What do you call a group of lions?", options: ["Herd", "Pack", "Pride", "Flock"], answer: "Pride" },
+        { question: "Which animal is black and white and lives in China?", options: ["Zebra", "Penguin", "Panda", "Badger"], answer: "Panda" }
+      ]
+    };
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const quizType = urlParams.get('type');
+      const quizQuestions = quizzes[quizType];
+
+      if (!quizQuestions) {
+        document.getElementById('quiz-title').textContent = 'Quiz Not Found!';
+        return;
+      }
+
+      document.getElementById('quiz-title').textContent = `${quizType.charAt(0).toUpperCase() + quizType.slice(1)} Quiz`;
+      const selectedQuestions = shuffleArray([...quizQuestions]).slice(0, 5); // Get 5 random questions
+      const questionsContainer = document.getElementById('questions-container');
+      questionsContainer.innerHTML = '';
+
+      selectedQuestions.forEach((q, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question-container';
+        questionDiv.innerHTML = `
+          <p class="text-lg font-semibold mb-2">${index + 1}. ${q.question}</p>
+          <div class="options">
+            ${q.options.map(option => `
+              <label>
+                <input type="radio" name="question${index}" value="${option}">
+                ${option}
+              </label>
+            `).join('')}
+          </div>
+          <div id="feedback-${index}" class="feedback"></div>
+        `;
+        questionsContainer.appendChild(questionDiv);
+      });
+
+      document.getElementById('quiz-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        let score = 0;
+        selectedQuestions.forEach((q, index) => {
+          const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+          const feedbackDiv = document.getElementById(`feedback-${index}`);
+          if (selectedOption) {
+            if (selectedOption.value === q.answer) {
+              score++;
+              feedbackDiv.textContent = 'Correct!';
+              feedbackDiv.className = 'feedback correct';
+            } else {
+              feedbackDiv.textContent = `Incorrect. The correct answer was ${q.answer}.`;
+              feedbackDiv.className = 'feedback incorrect';
+            }
+          } else {
+            feedbackDiv.textContent = 'Please select an answer.';
+            feedbackDiv.className = 'feedback incorrect';
+          }
+        });
+        document.getElementById('quiz-results').textContent = `You scored ${score} out of ${selectedQuestions.length}!`;
+      });
+    });
+  </script>
+</body>
+</html>
