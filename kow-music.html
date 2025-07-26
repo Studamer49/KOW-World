@@ -51,14 +51,10 @@
 <body class="bg-gradient-to-br from-purple-100 to-indigo-200 text-gray-800 font-sans">
   <!-- Navbar -->
   <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
-    <h1 class="text-2xl font-bold text-white animate-bounce">🎵 KOW Music</h1>
+    <h1 class="text-2xl font-bold text-white animate-bounce">🌍 Kids Online World</h1>
     <button id="menu-button" class="md:hidden text-white">☰</button>
     <nav id="nav-links" class="nav-links w-full md:w-auto md:flex md:space-x-2">
-      <a href="index.html" class="button">Home</a>
-      <a href="kow-games.html" class="button">Games</a>
-      <a href="kow-studies.html" class="button">Studies</a>
-      <a href="kow-quizzes.html" class="button">Quizzes</a>
-      <a href="kow-videos.html" class="button">Videos</a>
+      <a href="index.html" class="button button-blue">🏠 Home</a>
     </nav>
   </nav>
 
@@ -67,39 +63,35 @@
     <h1 class="text-4xl font-bold text-purple-600 text-center mb-8">Let's Jam!</h1>
 
     <div class="flex flex-col md:flex-row gap-8">
-      <!-- Playlist -->
-      <div class="w-full md:w-1/3 bg-white p-6 rounded-2xl shadow-xl">
-        <h2 class="text-2xl font-bold text-purple-600 mb-4">Choose a Song</h2>
-        <ul id="playlist" class="space-y-4">
-          <li data-src="path/to/song1.mp3" data-album-art="https://placehold.co/100x100/FFC107/FFFFFF?text=🎵" class="flex items-center gap-4 p-4 rounded-lg cursor-pointer hover:bg-purple-50 transition-all duration-200">
-            <img src="https://placehold.co/100x100/FFC107/FFFFFF?text=🎵" alt="Album Art" class="w-16 h-16 rounded-md">
-            <div>
-              <h3 class="text-lg font-bold text-purple-800">Song Title 1</h3>
-              <p class="text-gray-600">Artist Name 1</p>
-            </div>
-          </li>
-          <li data-src="path/to/song2.mp3" data-album-art="https://placehold.co/100x100/3498DB/FFFFFF?text=🎶" class="flex items-center gap-4 p-4 rounded-lg cursor-pointer hover:bg-purple-50 transition-all duration-200">
-            <img src="https://placehold.co/100x100/3498DB/FFFFFF?text=🎶" alt="Album Art" class="w-16 h-16 rounded-md">
-            <div>
-              <h3 class="text-lg font-bold text-purple-800">Song Title 2</h3>
-              <p class="text-gray-600">Artist Name 2</p>
-            </div>
-          </li>
-          <li data-src="path/to/song3.mp3" data-album-art="https://placehold.co/100x100/E74C3C/FFFFFF?text=🎤" class="flex items-center gap-4 p-4 rounded-lg cursor-pointer hover:bg-purple-50 transition-all duration-200">
-            <img src="https://placehold.co/100x100/E74C3C/FFFFFF?text=🎤" alt="Album Art" class="w-16 h-16 rounded-md">
-            <div>
-              <h3 class="text-lg font-bold text-purple-800">Song Title 3</h3>
-              <p class="text-gray-600">Artist Name 3</p>
-            </div>
-          </li>
+      <!-- Playlist and Filters -->
+      <div class="w-full md:w-2/3 bg-white p-6 rounded-2xl shadow-xl">
+        <h2 class="text-2xl font-bold text-purple-600 mb-4">Music Library</h2>
+        
+        <!-- Search Bar -->
+        <div class="mb-4">
+          <input type="text" id="search-bar" placeholder="Search songs..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+        </div>
+
+        <!-- Genre Filters -->
+        <div class="mb-4 flex flex-wrap gap-2" id="genre-filters">
+          <button class="button button-blue genre-filter active" data-genre="all">All</button>
+          <button class="button button-green genre-filter" data-genre="pop">Pop</button>
+          <button class="button button-red genre-filter" data-genre="rock">Rock</button>
+          <button class="button button-yellow genre-filter" data-genre="electronic">Electronic</button>
+          <button class="button button-purple genre-filter" data-genre="acoustic">Acoustic</button>
+        </div>
+
+        <!-- Song List -->
+        <ul id="playlist" class="space-y-4 max-h-96 overflow-y-auto">
+          <!-- Songs will be dynamically loaded here -->
         </ul>
       </div>
 
-      <!-- Music Player -->
-      <div class="w-full md:w-2/3 bg-white p-6 rounded-2xl shadow-xl flex flex-col items-center">
+      <!-- Music Player (Now Playing) -->
+      <div class="w-full md:w-1/3 bg-white p-6 rounded-2xl shadow-xl flex flex-col items-center">
         <h2 class="text-2xl font-bold text-purple-600 mb-4">Now Playing</h2>
-        <img id="album-art" src="https://placehold.co/300x300/9B59B6/FFFFFF?text=KOW" alt="Album Art" class="w-64 h-64 rounded-2xl shadow-lg mb-4">
-        <h3 id="song-title" class="text-2xl font-bold text-purple-800">Choose a song to start</h3>
+        <img id="album-art" src="https://placehold.co/300x300/9B59B6/FFFFFF?text=KOW" alt="Album Art" class="w-48 h-48 rounded-2xl shadow-lg mb-4">
+        <h3 id="song-title" class="text-xl font-bold text-purple-800">Choose a song to start</h3>
         <p id="artist-name" class="text-gray-600 mb-6">...</p>
         <audio id="audio-player" class="hidden"></audio>
         <div class="flex items-center gap-4">
@@ -126,7 +118,6 @@
   </footer>
 
   <script>
-    const playlist = document.getElementById('playlist');
     const audioPlayer = document.getElementById('audio-player');
     const albumArt = document.getElementById('album-art');
     const songTitle = document.getElementById('song-title');
@@ -136,20 +127,55 @@
     const pauseIcon = document.getElementById('pause-icon');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+    const searchBar = document.getElementById('search-bar');
+    const genreFilters = document.getElementById('genre-filters');
+    const playlistElement = document.getElementById('playlist');
 
     let currentSongIndex = -1;
-    const songs = Array.from(playlist.children);
+    let allSongs = [
+      { src: 'music/song1.mp3', albumArt: 'https://placehold.co/100x100/FFC107/FFFFFF?text=🎵', title: 'Happy Tune', artist: 'Kids Band', genre: 'pop' },
+      { src: 'music/song2.mp3', albumArt: 'https://placehold.co/100x100/3498DB/FFFFFF?text=🎶', title: 'Playful Melody', artist: 'Fun Sounds', genre: 'acoustic' },
+      { src: 'music/song3.mp3', albumArt: 'https://placehold.co/100x100/E74C3C/FFFFFF?text=🎤', title: 'Upbeat Groove', artist: 'Rhythm Crew', genre: 'electronic' },
+      { src: 'music/song4.mp3', albumArt: 'https://placehold.co/100x100/2ECC71/FFFFFF?text=🎸', title: 'Adventure Time', artist: 'Explorer Group', genre: 'rock' },
+      { src: 'music/song5.mp3', albumArt: 'https://placehold.co/100x100/9B59B6/FFFFFF?text=🥁', title: 'Dreamy Kids', artist: 'Sleepy Tunes', genre: 'acoustic' }
+    ];
+    let filteredSongs = [...allSongs];
+
+    function renderPlaylist(songsToRender) {
+      playlistElement.innerHTML = '';
+      songsToRender.forEach((song, index) => {
+        const li = document.createElement('li');
+        li.dataset.src = song.src;
+        li.dataset.albumArt = song.albumArt;
+        li.dataset.title = song.title;
+        li.dataset.artist = song.artist;
+        li.dataset.genre = song.genre;
+        li.className = 'flex items-center gap-4 p-4 rounded-lg cursor-pointer hover:bg-purple-50 transition-all duration-200';
+        li.innerHTML = `
+          <img src="${song.albumArt}" alt="Album Art" class="w-16 h-16 rounded-md">
+          <div>
+            <h3 class="text-lg font-bold text-purple-800">${song.title}</h3>
+            <p class="text-gray-600">${song.artist}</p>
+          </div>
+        `;
+        li.addEventListener('click', () => {
+          loadSong(index);
+          playSong();
+        });
+        playlistElement.appendChild(li);
+      });
+    }
 
     function loadSong(songIndex) {
-      const song = songs[songIndex];
-      audioPlayer.src = song.dataset.src;
-      albumArt.src = song.dataset.albumArt;
-      songTitle.textContent = song.querySelector('h3').textContent;
-      artistName.textContent = song.querySelector('p').textContent;
+      const song = filteredSongs[songIndex];
+      audioPlayer.src = song.src;
+      albumArt.src = song.albumArt;
+      songTitle.textContent = song.title;
+      artistName.textContent = song.artist;
       currentSongIndex = songIndex;
       
       // Highlight the current song in the playlist
-      songs.forEach((s, index) => {
+      Array.from(playlistElement.children).forEach((s, index) => {
         s.classList.toggle('bg-purple-100', index === songIndex);
       });
     }
@@ -167,29 +193,49 @@
     }
 
     function playNextSong() {
-      currentSongIndex = (currentSongIndex + 1) % songs.length;
+      currentSongIndex = (currentSongIndex + 1) % filteredSongs.length;
       loadSong(currentSongIndex);
       playSong();
     }
 
     function playPrevSong() {
-      currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+      currentSongIndex = (currentSongIndex - 1 + filteredSongs.length) % filteredSongs.length;
       loadSong(currentSongIndex);
       playSong();
     }
 
-    playlist.addEventListener('click', (e) => {
-      const songItem = e.target.closest('li');
-      if (songItem) {
-        const songIndex = songs.indexOf(songItem);
-        loadSong(songIndex);
-        playSong();
+    searchBar.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      filteredSongs = allSongs.filter(song => 
+        song.title.toLowerCase().includes(searchTerm) ||
+        song.artist.toLowerCase().includes(searchTerm) ||
+        song.genre.toLowerCase().includes(searchTerm)
+      );
+      renderPlaylist(filteredSongs);
+    });
+
+    genreFilters.addEventListener('click', (e) => {
+      if (e.target.classList.contains('genre-filter')) {
+        const selectedGenre = e.target.dataset.genre;
+
+        // Update active state for buttons
+        Array.from(genreFilters.children).forEach(btn => {
+          btn.classList.remove('active');
+        });
+        e.target.classList.add('active');
+
+        if (selectedGenre === 'all') {
+          filteredSongs = [...allSongs];
+        } else {
+          filteredSongs = allSongs.filter(song => song.genre === selectedGenre);
+        }
+        renderPlaylist(filteredSongs);
       }
     });
 
     playPauseBtn.addEventListener('click', () => {
       if (audioPlayer.paused) {
-        if (currentSongIndex === -1) {
+        if (currentSongIndex === -1 && filteredSongs.length > 0) {
           loadSong(0);
         }
         playSong();
@@ -210,6 +256,9 @@
         navLinks.style.display = 'flex';
       }
     });
+
+    // Initial render of the playlist
+    renderPlaylist(filteredSongs);
   </script>
 </body>
 </html>

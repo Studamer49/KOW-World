@@ -20,15 +20,15 @@
   <!-- Navbar -->
   <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
     <h1 class="text-2xl font-bold text-white animate-bounce">❓ KOW Quiz</h1>
-    <button onclick="window.location.href='index.html'">🏠 Home</button>
-    <button onclick="window.location.href='kow-quizzes.html'">Back to Quizzes</button>
+    <button onclick="window.location.href='index.html'" class="button button-blue">🏠 Home</button>
+    <button onclick="window.location.href='kow-quizzes.html'" class="button button-green">Back to Quizzes</button>
   </nav>
 
   <section class="px-6 py-10 max-w-4xl mx-auto">
     <h2 id="quiz-title" class="text-3xl font-bold text-green-600 text-center mb-6"></h2>
     <form id="quiz-form">
       <div id="questions-container"></div>
-      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">Submit Quiz</button>
+      <button type="submit" class="button button-purple">Submit Quiz</button>
     </form>
     <div id="quiz-results" class="mt-6 text-center text-2xl font-bold"></div>
   </section>
