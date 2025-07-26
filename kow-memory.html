@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory Match Game</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="buttons.css">
   <style>
     .grid {
       display: grid;
@@ -33,9 +34,9 @@
 </head>
 <body class="bg-red-100 text-center p-6 pt-20">
   <div class="fixed top-0 left-0 w-full bg-red-100 p-4 z-50 flex flex-wrap justify-center">
-    <a href="index.html" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded m-1">🏠 Home</a>
-    <a href="kow-games.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded m-1">🎮 Games</a>
-    <button onclick="startGame()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded m-1">🔄 Restart Game</button>
+    <button onclick="window.location.href='index.html'">🏠 Home</button>
+    <button onclick="window.location.href='kow-games.html'">🎮 Games</button>
+    <button onclick="startGame()">🔄 Restart Game</button>
   </div>
 
   <h1 class="text-3xl font-bold text-red-600">🧠 Memory Match Game</h1>

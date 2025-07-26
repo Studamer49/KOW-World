@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KOW | Quiz Play</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="buttons.css">
   <style>
     html { scroll-behavior: smooth; }
     .question-container { margin-bottom: 1.5rem; padding: 1.5rem; background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
@@ -19,8 +20,8 @@
   <!-- Navbar -->
   <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
     <h1 class="text-2xl font-bold text-white animate-bounce">❓ KOW Quiz</h1>
-    <a href="index.html" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">🏠 Home</a>
-    <a href="kow-quizzes.html" class="inline-block bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">Back to Quizzes</a>
+    <button onclick="window.location.href='index.html'">🏠 Home</button>
+    <button onclick="window.location.href='kow-quizzes.html'">Back to Quizzes</button>
   </nav>
 
   <section class="px-6 py-10 max-w-4xl mx-auto">

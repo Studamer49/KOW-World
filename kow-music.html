@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>KOW Music</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="buttons.css">
+  <style>
+    html { scroll-behavior: smooth; }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .nav-links a {
+      padding: 0.5rem 1rem;
+      width: 100%;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        width: auto;
+      }
+      #menu-button {
+        display: none;
+      }
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+    .element {
+      animation-name: bounce;
+      animation-duration: 1s; /* Duration of the animation */
+      animation-timing-function: ease-in-out; /* Animation speed */
+      animation-iteration-count: infinite; /* Repeat the animation */
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-sky-100 to-white text-gray-800 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
+    <h1 class="text-2xl font-bold text-white animate-bounce">🎵 KOW Music</h1>
+    <button id="menu-button" class="md:hidden text-white">☰</button>
+    <nav id="nav-links" class="nav-links w-full md:w-auto md:flex md:space-x-2">
+      <a href="index.html" class="button">Home</a>
+      <a href="kow-games.html" class="button">Games</a>
+      <a href="kow-studies.html" class="button">Studies</a>
+      <a href="kow-quizzes.html" class="button">Quizzes</a>
+      <a href="kow-videos.html" class="button">Videos</a>
+    </nav>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container mx-auto p-6">
+    <h1 class="text-4xl font-bold text-blue-600 text-center mb-8">KOW Music - Listen to Fun Songs!</h1>
+
+    <section id="music-list" class="mb-8 p-6 bg-white rounded-xl shadow-md">
+      <h2 class="text-3xl font-bold text-green-600 mb-4">Music List</h2>
+      <ul class="space-y-4">
+        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <h3 class="text-xl font-bold text-blue-600">Song Title 1</h3>
+          <p class="text-gray-700">A short description of the song.</p>
+          <audio controls class="w-full mt-2">
+            <source src="path/to/song1.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </li>
+        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <h3 class="text-xl font-bold text-blue-600">Song Title 2</h3>
+          <p class="text-gray-700">A short description of the song.</p>
+          <audio controls class="w-full mt-2">
+            <source src="path/to/song2.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </li>
+        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <h3 class="text-xl font-bold text-blue-600">Song Title 3</h3>
+          <p class="text-gray-700">A short description of the song.</p>
+          <audio controls class="w-full mt-2">
+            <source src="path/to/song3.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 py-6 mt-10 text-gray-600 text-sm">
+    <div class="max-w-md mx-auto text-center">
+      © 2025 Kids Online World | Made with ❤️ by Vivu ✨
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menu-button').addEventListener('click', function() {
+      var navLinks = document.getElementById('nav-links');
+      if (navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      } else {
+        navLinks.style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>
