@@ -8,6 +8,61 @@
   <link rel="stylesheet" href="buttons.css">
   <style>
     html { scroll-behavior: smooth; }
+    #video-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .video-item {
+      cursor: pointer;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .video-item:hover {
+      transform: scale(1.05);
+    }
+    .video-item img {
+      width: 100%;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+    .video-info {
+      padding: 1rem;
+      text-align: left;
+      flex-grow: 1;
+    }
+    .video-info h3 {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    .video-info p {
+      font-size: 0.875rem;
+      color: #666;
+    }
+    #video-player-container {
+      position: relative;
+    }
+    #close-player {
+      position: absolute;
+      top: -1rem;
+      right: -1rem;
+      background: white;
+      border-radius: 9999px;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      font-size: 1.5rem;
+      line-height: 1;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-pink-100 to-white text-gray-800 font-sans">
@@ -18,25 +73,92 @@
   </nav>
 
   <!-- Videos Section -->
-  <section class="px-6 py-10 max-w-4xl mx-auto">
+  <section class="px-6 py-10 max-w-6xl mx-auto">
     <h2 class="text-3xl font-bold text-red-500 text-center mb-6">🎥 Awesome Videos</h2>
-    <div class="space-y-4">
-      <ul class="list-disc pl-6 space-y-2 text-gray-700">
-        <li class="bg-white p-4 rounded-xl shadow-md">
-          <a href="https://www.youtube.com/watch?v=9idkBoobXyI" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-pink-600 hover:underline">Learn to Draw a Cartoon Cat 🐱</a>
-        </li>
-        <li class="bg-white p-4 rounded-xl shadow-md">
-          <a href="https://www.youtube.com/watch?v=DE5XSlvYY5o" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-pink-600 hover:underline">Space Journey Animation 🚀</a>
-        </li>
-        <li class="bg-white p-4 rounded-xl shadow-md">
-          <a href="https://www.youtube.com/watch?v=39ColarOWKo" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-pink-600 hover:underline">Funny Animal Clips 🐒</a>
-        </li>
-        <li class="bg-white p-4 rounded-xl shadow-md">
-          <a href="https://www.youtube.com/watch?v=lgxJRTPZFU8" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-pink-600 hover:underline">Simple Science Tricks 🔬</a>
-        </li>
-      </ul>
+    <div class="flex justify-center mb-6">
+      <input type="text" id="search-query" class="w-full max-w-md px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="Search for videos like 'funny cats' or 'learn colors'...">
+      <button id="search-button" class="bg-red-500 text-white px-6 py-2 rounded-r-lg hover:bg-red-600">Search</button>
     </div>
+    <div id="video-player-container" class="hidden sticky top-24 z-40 mb-6">
+      <button id="close-player">❌</button>
+      <iframe id="youtube-player" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div id="video-results"></div>
   </section>
-  
+
+  <script>
+    const searchButton = document.getElementById('search-button');
+    const searchQuery = document.getElementById('search-query');
+    const videoResults = document.getElementById('video-results');
+    const videoPlayerContainer = document.getElementById('video-player-container');
+    const youtubePlayer = document.getElementById('youtube-player');
+    const closePlayerButton = document.getElementById('close-player');
+    
+    // IMPORTANT: Replace with your own YouTube Data API key
+    const API_KEY = 'YOUR_API_KEY'; 
+
+    searchButton.addEventListener('click', performSearch);
+    searchQuery.addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+        performSearch();
+      }
+    });
+    closePlayerButton.addEventListener('click', closePlayer);
+
+    function performSearch() {
+      const query = searchQuery.value;
+      if (query) {
+        if (API_KEY === 'YOUR_API_KEY') {
+          alert('Please replace "YOUR_API_KEY" with your actual YouTube Data API key in the script.');
+          return;
+        }
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=${API_KEY}&type=video&maxResults=12`)
+          .then(response => response.json())
+          .then(data => {
+            displayResults(data.items);
+          })
+          .catch(error => {
+            console.error('Error fetching videos:', error);
+            videoResults.innerHTML = '<p class="text-red-500">Could not fetch videos. Please check the console for errors.</p>';
+          });
+      }
+    }
+
+    function displayResults(videos) {
+      videoResults.innerHTML = '';
+      if (!videos || videos.length === 0) {
+        videoResults.innerHTML = '<p>No videos found. Try a different search!</p>';
+        return;
+      }
+      videos.forEach(video => {
+        const videoItem = document.createElement('div');
+        videoItem.classList.add('video-item');
+        const publishedDate = new Date(video.snippet.publishedAt).toLocaleDateString();
+        videoItem.innerHTML = `
+          <img src="${video.snippet.thumbnails.high.url}" alt="${video.snippet.title}">
+          <div class="video-info">
+            <h3>${video.snippet.title}</h3>
+            <p>By ${video.snippet.channelTitle}</p>
+            <p>Published on ${publishedDate}</p>
+          </div>
+        `;
+        videoItem.addEventListener('click', () => {
+          playVideo(video.id.videoId);
+        });
+        videoResults.appendChild(videoItem);
+      });
+    }
+
+    function playVideo(videoId) {
+      youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      videoPlayerContainer.classList.remove('hidden');
+      videoPlayerContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function closePlayer() {
+      youtubePlayer.src = '';
+      videoPlayerContainer.classList.add('hidden');
+    }
+  </script>
 </body>
 </html>
