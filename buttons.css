@@ -1,9 +1,11 @@
 
 /* From Uiverse.io by virus231 */ 
 .button {
-  background: linear-gradient(140.14deg, #ec540e 15.05%, #d6361f 114.99%)
-      padding-box,
-    linear-gradient(142.51deg, #ff9465 8.65%, #af1905 88.82%) border-box;
+  background: linear-gradient(140.14deg, #ec540e 15.05%, #d6361f 114.99%);
+  border-radius: 7px;
+  border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(140.14deg, #ec540e 15.05%, #d6361f 114.99%), linear-gradient(142.51deg, #ff9465 8.65%, #af1905 88.82%);
   border-radius: 7px;
   border: 2px solid transparent;
 
@@ -25,31 +27,36 @@
 }
 
 .button-blue {
-  background: linear-gradient(140.14deg, #3498db 15.05%, #2980b9 114.99%) padding-box,
-    linear-gradient(142.51deg, #5dade2 8.65%, #1a5276 88.82%) border-box;
+  background: linear-gradient(140.14deg, #3498db 15.05%, #2980b9 114.99%);
   border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(140.14deg, #3498db 15.05%, #2980b9 114.99%), linear-gradient(142.51deg, #5dade2 8.65%, #1a5276 88.82%);
 }
 
 .button-green {
-  background: linear-gradient(140.14deg, #2ecc71 15.05%, #27ae60 114.99%) padding-box,
-    linear-gradient(142.51deg, #58d68d 8.65%, #1e8449 88.82%) border-box;
+  background: linear-gradient(140.14deg, #2ecc71 15.05%, #27ae60 114.99%);
   border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(140.14deg, #2ecc71 15.05%, #27ae60 114.99%), linear-gradient(142.51deg, #58d68d 8.65%, #1e8449 88.82%);
 }
 
 .button-purple {
-  background: linear-gradient(140.14deg, #9b59b6 15.05%, #8e44ad 114.99%) padding-box,
-    linear-gradient(142.51deg, #af7ac5 8.65%, #6c3483 88.82%) border-box;
+  background: linear-gradient(140.14deg, #9b59b6 15.05%, #8e44ad 114.99%);
   border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(140.14deg, #9b59b6 15.05%, #8e44ad 114.99%), linear-gradient(142.51deg, #af7ac5 8.65%, #6c3483 88.82%);
 }
 
 .button-red {
-  background: linear-gradient(140.14deg, #e74c3c 15.05%, #c0392b 114.99%) padding-box,
-    linear-gradient(142.51deg, #ec7063 8.65%, #943126 88.82%) border-box;
+  background: linear-gradient(140.14deg, #e74c3c 15.05%, #c0392b 114.99%);
   border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(140.14deg, #e74c3c 15.05%, #c0392b 114.99%), linear-gradient(142.51deg, #ec7063 8.65%, #943126 88.82%);
 }
 
 .button-yellow {
-  background: linear-gradient(140.14deg, #f1c40f 15.05%, #f39c12 114.99%) padding-box,
-    linear-gradient(142.51deg, #f4d03f 8.65%, #b7950b 88.82%) border-box;
+  background: linear-gradient(140.14deg, #f1c40f 15.05%, #f39c12 114.99%);
   border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  background-image: linear-gradient(140.14deg, #f1c40f 15.05%, #f39c12 114.99%), linear-gradient(142.51deg, #f4d03f 8.65%, #b7950b 88.82%);
 }

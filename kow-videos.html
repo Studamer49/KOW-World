@@ -85,10 +85,6 @@
   <script>
     const searchButton = document.getElementById('search-button');
     const searchQuery = document.getElementById('search-query');
-    const videoResults = document.getElementById('video-results');
-    const videoPlayerContainer = document.getElementById('video-player-container');
-    const youtubePlayer = document.getElementById('youtube-player');
-    const closePlayerButton = document.getElementById('close-player');
     
     // IMPORTANT: Replace with your own YouTube Data API key
     const API_KEY = 'YOUR_API_KEY'; 
@@ -99,50 +95,17 @@
         performSearch();
       }
     });
-    closePlayerButton.addEventListener('click', closePlayer);
 
     function performSearch() {
+      if (API_KEY === 'YOUR_API_KEY') {
+        alert('Please replace \'YOUR_API_KEY\' with your own YouTube Data API key in kow-videos.html to enable video search.');
+        return;
+      }
       const query = searchQuery.value;
       if (query) {
         const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
         window.open(youtubeSearchUrl, '_blank');
       }
-    }
-
-    function displayResults(videos) {
-      videoResults.innerHTML = '';
-      if (!videos || videos.length === 0) {
-        videoResults.innerHTML = '<p>No videos found. Try a different search!</p>';
-        return;
-      }
-      videos.forEach(video => {
-        const videoItem = document.createElement('div');
-        videoItem.classList.add('video-item');
-        const publishedDate = new Date(video.snippet.publishedAt).toLocaleDateString();
-        videoItem.innerHTML = `
-          <img src="${video.snippet.thumbnails.high.url}" alt="${video.snippet.title}">
-          <div class="video-info">
-            <h3>${video.snippet.title}</h3>
-            <p>By ${video.snippet.channelTitle}</p>
-            <p>Published on ${publishedDate}</p>
-          </div>
-        `;
-        videoItem.addEventListener('click', () => {
-          playVideo(video.id.videoId);
-        });
-        videoResults.appendChild(videoItem);
-      });
-    }
-
-    function playVideo(videoId) {
-      youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-      videoPlayerContainer.classList.remove('hidden');
-      videoPlayerContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    function closePlayer() {
-      youtubePlayer.src = '';
-      videoPlayerContainer.classList.add('hidden');
     }
   </script>
 </body>
