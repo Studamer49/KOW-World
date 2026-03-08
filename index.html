@@ -5,154 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kids Online World</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="kow-style.css">
   <link rel="stylesheet" href="buttons.css">
   <style>
     html { scroll-behavior: smooth; }
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-    .nav-links a {
-      padding: 0.5rem 1rem;
-      width: 100%;
-      text-align: center;
-    }
-    @media (min-width: 768px) {
-      .nav-links {
-        display: flex;
-        flex-direction: row;
-        width: auto;
-      }
-      #menu-button {
-        display: none;
-      }
-    }
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-10px);
-      }
-      60% {
-        transform: translateY(-5px);
-      }
-    }
-    .element {
-      animation-name: bounce;
-      animation-duration: 1s; /* Duration of the animation */
-      animation-timing-function: ease-in-out; /* Animation speed */
-      animation-iteration-count: infinite; /* Repeat the animation */
-    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-sky-100 to-white text-gray-800 font-sans">
-  <!-- Navbar -->
-  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
-    <h1 class="text-2xl font-bold text-white animate-bounce">🌍 Kids Online World</h1>
-    <button id="menu-button" class="text-white md:hidden">☰</button>
-    <nav id="nav-links" class="nav-links w-full md:w-auto md:flex md:space-x-2">
-      <button onclick="window.location.href='kow-games.html'" class="button button-blue">Games</button>
-      <button onclick="window.location.href='kow-studies.html'" class="button button-green">Studies</button>
-      <button onclick="window.location.href='kow-quizzes.html'" class="button button-purple">Quizzes</button>
-      <button onclick="window.location.href='kow-news.html'" class="button button-red">News</button>
-      <button onclick="window.location.href='kow-videos.html'" class="button button-yellow">Videos</button>
-      <button onclick="window.location.href='kow-timediscipline.html'" class="button button-green">Time Discipline</button>
-    </nav>
+<body class="bg-gradient-to-br from-yellow-400 via-pink-500 to-blue-500 text-gray-800 font-sans">
+  
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-black text-pink-600 italic">FUN MENU!</h2>
+          <button id="close-sidebar" class="text-4xl font-bold text-blue-500">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full text-xl">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full text-xl">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full text-xl text-gray-800">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full text-xl">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full text-xl">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full text-xl text-gray-800">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full text-xl text-gray-800">⏰ Time</button>
+      </div>
+  </div>
+
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-5xl font-bold mr-6 hover:scale-110 transition-transform">☰</button>
+      <h1 class="text-4xl font-black text-white glow-text animate-bounce cursor-pointer tracking-tighter" onclick="window.location.href='index.html'">🌍 KIDS ONLINE WORLD</h1>
+    </div>
   </nav>
+
   <!-- Hero Section -->
-  <section class="text-center py-12 px-6">
-    <h2 class="text-4xl font-bold text-blue-600 mb-4">Welcome to a World of Fun & Learning!</h2>
-    <p class="text-lg text-gray-700 max-w-xl mx-auto">
-      Explore cool games, awesome videos, exciting quizzes, and amazing stories — all in one fun place just for kids! 🎉
+  <section class="text-center py-24 px-6">
+    <h2 class="text-8xl font-black text-white mb-8 glow-text tracking-tight uppercase leading-none">A World of<br>Pure Fun! 🚀</h2>
+    <p class="text-3xl text-white font-bold max-w-3xl mx-auto drop-shadow-lg italic">
+      Games, Quizzes, Videos, and Stories — Everything bright and exciting just for you! 🌈
     </p>
   </section>
 
   <!-- Features Section -->
-  <section class="px-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-    <a href="kow-games.html" class="bg-yellow-300 p-6 rounded-2xl shadow-xl text-center block">
-      <div class="text-5xl mb-3">🎮</div>
-      <h3 class="text-xl font-bold mb-1">Games</h3>
-      <p>Play fun games and learn new things!</p>
+  <section class="px-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+    <a href="kow-games.html" class="card-bright bg-blue-400 p-10 rounded-3xl shadow-2xl text-center block text-white">
+      <div class="text-9xl mb-6">🎮</div>
+      <h3 class="text-4xl font-black mb-2 uppercase">Games</h3>
+      <p class="text-blue-100 text-xl font-bold">Awesome games to play!</p>
     </a>
-    <a href="kow-quizzes.html" class="bg-green-300 p-6 rounded-2xl shadow-xl text-center block">
-      <div class="text-5xl mb-3">❓</div>
-      <h3 class="text-xl font-bold mb-1">Quizzes</h3>
-      <p>Test your brain with cool quizzes.</p>
+    <a href="kow-quizzes.html" class="card-bright bg-purple-500 p-10 rounded-3xl shadow-2xl text-center block text-white">
+      <div class="text-9xl mb-6">❓</div>
+      <h3 class="text-4xl font-black mb-2 uppercase">Quizzes</h3>
+      <p class="text-purple-100 text-xl font-bold">Show off your brain power!</p>
     </a>
-    <a href="kow-news.html" class="bg-pink-300 p-6 rounded-2xl shadow-xl text-center block">
-      <div class="text-5xl mb-3">🗞️</div>
-      <h3 class="text-xl font-bold mb-1">News</h3>
-      <p>Catch up on fun news for kids!</p>
+    <a href="kow-news.html" class="card-bright bg-pink-500 p-10 rounded-3xl shadow-2xl text-center block text-white">
+      <div class="text-9xl mb-6">🗞️</div>
+      <h3 class="text-4xl font-black mb-2 uppercase">News</h3>
+      <p class="text-pink-100 text-xl font-bold">The coolest stories ever!</p>
     </a>
-    <a href="kow-videos.html" class="bg-purple-300 p-6 rounded-2xl shadow-xl text-center block">
-      <div class="text-5xl mb-3">🎥</div>
-      <h3 class="text-xl font-bold mb-1">Videos</h3>
-      <p>Watch fun and educational videos.</p>
+    <a href="kow-videos.html" class="card-bright bg-yellow-400 p-10 rounded-3xl shadow-2xl text-center block text-gray-800">
+      <div class="text-9xl mb-6">🎥</div>
+      <h3 class="text-4xl font-black mb-2 uppercase">Videos</h3>
+      <p class="text-yellow-800 text-xl font-bold">Watch and learn fun things!</p>
     </a>
-    <a href="kow-timediscipline.html" class="bg-red-300 p-6 rounded-2xl shadow-xl text-center block">
-      <div class="text-5xl mb-3">⏰</div>
-      <h3 class="text-xl font-bold mb-1">Time Discipline</h3>
-      <p>Learn to manage your time and have fun!</p>
+    <a href="kow-timediscipline.html" class="card-bright bg-green-400 p-10 rounded-3xl shadow-2xl text-center block text-gray-800">
+      <div class="text-9xl mb-6">⏰</div>
+      <h3 class="text-4xl font-black mb-2 uppercase">Time</h3>
+      <p class="text-green-800 text-xl font-bold">Master your clock!</p>
     </a>
-    <a href="kow-studies.html" class="bg-blue-300 p-6 rounded-2xl shadow-xl text-center block">
-      <div class="text-5xl mb-3">📘</div>
-      <h3 class="text-xl font-bold mb-1">Studies</h3>
-      <p>Learn about different subjects!</p>
-    </a>
-    <a href="kow-music.html" class="bg-indigo-300 p-6 rounded-2xl shadow-xl text-center block">
-      <div class="text-5xl mb-3">🎵</div>
-      <h3 class="text-xl font-bold mb-1">Music</h3>
-      <p>Listen to fun songs!</p>
+    <a href="kow-studies.html" class="card-bright bg-red-400 p-10 rounded-3xl shadow-2xl text-center block text-white">
+      <div class="text-9xl mb-6">📘</div>
+      <h3 class="text-4xl font-black mb-2 uppercase">Studies</h3>
+      <p class="text-red-100 text-xl font-bold">Become a learning ninja!</p>
     </a>
   </section>
 
-  
-
-  
-
-  
-
-  
-
-    
-
-  
-
-  <!-- Scroll to Top Button -->
-
-    
-
-  
-
-  
-
-  
-
-  
-
-  <!-- Scroll to Top Button -->
-  <button class="button button-red" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-  ⬆️ Top
-</button>
+  <!-- Scroll to Top -->
+  <div class="text-center mt-20 mb-32">
+    <button class="button button-yellow text-2xl px-16 py-6 rounded-full shadow-2xl" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      ⬆️ GO BACK TO TOP!
+    </button>
+  </div>
 
   <!-- Footer -->
-  <footer class="bg-gray-100 py-6 mt-10 text-gray-600 text-sm">
-    <div class="max-w-md mx-auto text-center">
-      © 2025 Kids Online World | Made with ❤️ by Vivu ✨
+  <footer class="bg-white py-16 border-t-8 border-pink-500 text-center">
+    <div class="max-w-md mx-auto">
+      <p class="text-4xl font-black text-pink-600 mb-4 tracking-tighter">🌍 KIDS ONLINE WORLD</p>
+      <p class="text-gray-500 font-black text-lg">MADE WITH ❤️ BY VIVU ✨</p>
     </div>
   </footer>
+
   <script>
-    document.getElementById('menu-button').addEventListener('click', function() {
-      var navLinks = document.getElementById('nav-links');
-      if (navLinks.style.display === 'flex') {
-        navLinks.style.display = 'none';
-      } else {
-        navLinks.style.display = 'flex';
-      }
+    document.getElementById('menu-button').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
     });
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
   </script>
 </body>
 </html>

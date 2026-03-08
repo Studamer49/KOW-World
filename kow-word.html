@@ -3,94 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Word Hunt Game</title>
+  <title>KOW | Word Hunt</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="kow-style.css">
   <link rel="stylesheet" href="buttons.css">
   <style>
+    html { scroll-behavior: smooth; }
     .grid-container {
       display: grid;
       grid-template-columns: repeat(9, 1fr);
-      grid-gap: 5px;
+      grid-gap: 8px;
       justify-content: center;
-      margin-bottom: 20px;
       max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto;
     }
     .grid-item {
       aspect-ratio: 1 / 1;
-      position: relative;
-      background-color: #f3f4f6;
-      border-radius: 5px;
-      transition: background-color 0.3s;
+      background-color: white;
+      border-radius: 12px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: clamp(1rem, 4vw, 1.5rem);
+      font-size: 1.5rem;
+      font-weight: 800;
       cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 0 #cbd5e0;
+      color: #4a5568;
     }
-    .grid-item-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: clamp(1rem, 4vw, 1.5rem);
-      cursor: pointer;
-    }
-    .highlight {
-      background-color: #ce2a2a; /* A nice yellow for selection */
+    .grid-item:hover { transform: translateY(-2px); background-color: #f7fafc; }
+    .grid-item.highlight {
+      background-color: var(--neon-pink) !important;
+      color: white !important;
+      box-shadow: 0 4px 0 #d4143a !important;
     }
     .word-list-item {
-      font-size: 18px;
-      color: #333;
-      padding: 5px 10px;
-      background-color: #e9ecef;
-      border-radius: 5px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      background-color: white;
+      border-radius: 12px;
+      border: 3px solid #e2e8f0;
+      color: #4a5568;
     }
     .word-list-item.found {
       text-decoration: line-through;
-      color: #888;
-    }
-    #game-won-overlay h1 {
-        text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+      background-color: #f0fff4;
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      opacity: 0.7;
     }
   </style>
 </head>
-<body class="bg-blue-100 text-center p-6">
-  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
-    <h1 class="text-2xl font-bold text-white animate-bounce">🌍 Kids Online World</h1>
-    <button onclick="window.location.href='index.html'" class="button button-blue">🏠 Home</button>
+<body class="bg-gradient-to-br from-yellow-50 via-pink-50 to-blue-50 text-gray-800 font-sans min-h-screen pb-20">
+  
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-2xl font-black text-pink-600">Menu</h2>
+          <button id="close-sidebar" class="text-3xl">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full">⏰ Time</button>
+      </div>
+  </div>
+
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-4xl font-bold mr-4">☰</button>
+      <h1 class="text-3xl font-black text-pink-600 animate-bounce glow-text cursor-pointer" onclick="window.location.href='index.html'">🌍 KIDS ONLINE WORLD</h1>
+    </div>
   </nav>
 
-  <h1 class="text-3xl font-bold text-pink-600">🔍 Word Hunt Game</h1>
-  <p class="text-gray-700 mt-2">Click on the letters to form words. Find all the words to win!</p>
+  <section class="px-6 py-10 max-w-4xl mx-auto text-center">
+    <h2 class="text-5xl font-black text-green-600 mb-6 glow-text">🔍 Word Hunt</h2>
+    <p class="text-2xl text-gray-700 mb-10 font-bold">Find all hidden words! 🔎</p>
 
-  <div id="word-grid" class="grid-container mt-6">
-    <!-- The Word Grid will be populated here -->
-  </div>
+    <div class="game-container inline-block mb-10 p-6">
+        <div id="word-grid" class="grid-container"></div>
+    </div>
 
-  <h2 class="text-xl font-bold mt-4">Words to Find:</h2>
-  <div id="word-list" class="flex flex-wrap justify-center gap-4 mt-2">
-      <!-- Word list will be populated here -->
-  </div>
+    <div class="bg-white p-8 rounded-3xl shadow-xl border-4 border-yellow-400 mb-10">
+        <h3 class="text-2xl font-bold mb-4 text-yellow-600">Words to Find:</h3>
+        <div id="word-list" class="flex flex-wrap justify-center gap-4"></div>
+    </div>
 
-  <div id="game-won-message" class="hidden fixed inset-0 flex items-center justify-center pointer-events-none">
-    <h1 class="text-6xl font-bold text-green-600" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">You Win!</h1>
-  </div>
+    <div id="celebration" class="hidden mb-10 text-4xl font-black text-green-600 glow-text animate-bounce">
+        🎉 YOU FOUND THEM ALL! 🎉
+    </div>
 
-  <div class="mt-6 space-x-4">
-    <button onclick="restartGame()" class="button button-red">🔄 Restart Game</button>
-  </div>
+    <div class="flex justify-center gap-4 flex-wrap">
+        <button onclick="restartGame()" class="button button-pink text-xl">🔄 Restart</button>
+        <button onclick="window.location.href='kow-games.html'" class="button button-green text-xl">🎮 More Games</button>
+    </div>
+  </section>
 
-  <!-- Scroll to Top Button -->
-  <button class="button button-red" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-  ⬆️ Top
-</button>
+  <footer class="bg-white py-12 border-t-8 border-yellow-400 text-center mt-20">
+    <div class="max-w-md mx-auto">
+      <p class="text-2xl font-black text-pink-600 mb-2">🌍 Kids Online World</p>
+      <p class="text-gray-500 font-bold">© 2025 | Made with ❤️ by Vivu ✨</p>
+    </div>
+  </footer>
 
   <script>
     const wordPool = ["CAT", "DOG", "LION", "TIGER", "GIRAFFE", "ELEPHANT", "ZEBRA", "MONKEY", "HORSE", "PANDA", "KOALA", "BIRD", "FISH", "SHEEP", "COW", "DEER", "RABBIT", "BAT", "WOLF", "BEAR", "SNAKE", "EAGLE", "OWL", "PARROT", "DOLPHIN", "SHARK"];
@@ -100,93 +120,55 @@
     let placedWords = [];
     let selectedCells = [];
     let foundWordsCount = 0;
-    const foundColors = ['#ff7979', '#badc58', '#f9ca24', '#7ed6df', '#e0aaff']; // Red, Green, Yellow, Blue, Purple
+    const foundColors = ['#ff2d55', '#4cd964', '#ffcc00', '#007aff', '#5856d6']; 
 
     function generateGrid() {
       const gridContainer = document.getElementById("word-grid");
       const wordListContainer = document.getElementById("word-list");
-      
-      // Reset everything
-      gridContainer.innerHTML = "";
-      wordListContainer.innerHTML = "";
-      placedWords = [];
-      selectedCells = [];
-      foundWordsCount = 0;
-      document.getElementById("game-won-message").classList.add("hidden");
+      gridContainer.innerHTML = ""; wordListContainer.innerHTML = "";
+      placedWords = []; selectedCells = []; foundWordsCount = 0;
+      document.getElementById("celebration").classList.add("hidden");
 
-      // Initialize grid with random letters
       for (let i = 0; i < gridSize; i++) {
         grid[i] = [];
-        for (let j = 0; j < gridSize; j++) {
-          grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-        }
+        for (let j = 0; j < gridSize; j++) grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
       }
 
-      // Pick and place words
-      wordList = pickRandomWords(5);
+      wordList = [...wordPool].sort(() => 0.5 - Math.random()).slice(0, 5);
       wordList.forEach(word => placeWord(word));
 
-      // Create grid in DOM
       for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
-          const gridItem = document.createElement("div");
-          gridItem.className = "grid-item";
-          gridItem.dataset.row = i;
-          gridItem.dataset.col = j;
-          
-          const content = document.createElement('div');
-          content.className = 'grid-item-content';
-          content.textContent = grid[i][j];
-          gridItem.appendChild(content);
-
-          gridItem.addEventListener("click", () => toggleLetter(gridItem, i, j));
-          gridContainer.appendChild(gridItem);
+          const item = document.createElement("div");
+          item.className = "grid-item";
+          item.dataset.row = i; item.dataset.col = j;
+          item.textContent = grid[i][j];
+          item.onclick = () => toggleLetter(item, i, j);
+          gridContainer.appendChild(item);
         }
       }
-      
-      // Create word list in DOM
       wordList.forEach(word => {
-          const wordItem = document.createElement("span");
-          wordItem.id = `word-list-${word}`;
-          wordItem.className = "word-list-item";
-          wordItem.textContent = word;
-          wordListContainer.appendChild(wordItem);
+          const span = document.createElement("span");
+          span.id = `word-list-${word}`; span.className = "word-list-item";
+          span.textContent = word; wordListContainer.appendChild(span);
       });
-    }
-
-    function pickRandomWords(numWords) {
-      const shuffled = [...wordPool].sort(() => 0.5 - Math.random());
-      return shuffled.slice(0, numWords);
     }
 
     function placeWord(word) {
         const direction = Math.random() < 0.5 ? 'horizontal' : 'vertical';
-        const len = word.length;
-        let placed = false;
-        let attempts = 0;
-
+        let placed = false; let attempts = 0;
         while (!placed && attempts < 50) {
-            const startRow = Math.floor(Math.random() * (gridSize - (direction === 'vertical' ? len : 0)));
-            const startCol = Math.floor(Math.random() * (gridSize - (direction === 'horizontal' ? len : 0)));
-            
-            let canPlace = true;
-            const coords = [];
-
-            for (let i = 0; i < len; i++) {
-                const r = startRow + (direction === 'vertical' ? i : 0);
-                const c = startCol + (direction === 'horizontal' ? i : 0);
-                // A simple check if the spot is "taken" by another word.
-                if (placedWords.some(p => p.coords.some(pc => pc.row === r && pc.col === c))) {
-                    canPlace = false;
-                    break;
-                }
-                coords.push({ row: r, col: c });
+            const r = Math.floor(Math.random() * (gridSize - (direction === 'vertical' ? word.length : 0)));
+            const c = Math.floor(Math.random() * (gridSize - (direction === 'horizontal' ? word.length : 0)));
+            let canPlace = true; let coords = [];
+            for (let i = 0; i < word.length; i++) {
+                const curR = r + (direction === 'vertical' ? i : 0);
+                const curC = c + (direction === 'horizontal' ? i : 0);
+                if (placedWords.some(p => p.coords.some(pc => pc.row === curR && pc.col === curC))) { canPlace = false; break; }
+                coords.push({ row: curR, col: curC });
             }
-
             if (canPlace) {
-                coords.forEach((pos, i) => {
-                    grid[pos.row][pos.col] = word[i];
-                });
+                coords.forEach((pos, i) => grid[pos.row][pos.col] = word[i]);
                 placedWords.push({ word, coords, found: false });
                 placed = true;
             }
@@ -194,65 +176,54 @@
         }
     }
 
-    function toggleLetter(element, row, col) {
-      const cellIndex = selectedCells.findIndex(cell => cell.row === row && cell.col === col);
-
-      if (cellIndex > -1) {
-        selectedCells.splice(cellIndex, 1);
-        element.classList.remove("highlight");
-      } else {
-        selectedCells.push({ row, col });
-        element.classList.add("highlight");
-      }
-      
+    function toggleLetter(el, row, col) {
+      const idx = selectedCells.findIndex(c => c.row === row && c.col === col);
+      if (idx > -1) { selectedCells.splice(idx, 1); el.classList.remove("highlight"); }
+      else { selectedCells.push({ row, col }); el.classList.add("highlight"); }
       checkForFoundWord();
     }
 
     function checkForFoundWord() {
-        const selectedLetters = selectedCells.map(cell => grid[cell.row][cell.col]);
-        const sortedSelectedLetters = selectedLetters.sort().join('');
-
+        const selLetters = selectedCells.map(c => grid[c.row][c.col]).sort().join('');
         for (const pWord of placedWords) {
-            if (!pWord.found) {
-                const sortedWord = pWord.word.split('').sort().join('');
-
-                if (sortedWord === sortedSelectedLetters) {
-                    // The letters match, now check if the coordinates match
-                    if (pWord.coords.every(coord => selectedCells.some(sc => sc.row === coord.row && sc.col === coord.col)) &&
-                        pWord.coords.length === selectedCells.length) {
-                        
-                        pWord.found = true;
-                        const color = foundColors[foundWordsCount % foundColors.length];
-                        foundWordsCount++;
-
-                        pWord.coords.forEach(coord => {
-                            const cellEl = document.querySelector(`[data-row="${coord.row}"][data-col="${coord.col}"]`);
-                            cellEl.classList.remove('highlight');
-                            cellEl.style.backgroundColor = color;
-                        });
-                        
-                        document.getElementById(`word-list-${pWord.word}`).classList.add('found');
-                        selectedCells = []; // Clear selection
-
-                        // Unhighlight all cells after a word is found
-                        document.querySelectorAll('.grid-item.highlight').forEach(el => el.classList.remove('highlight'));
-
-                        if (foundWordsCount === wordList.length) {
-                            document.getElementById("game-won-message").classList.remove("hidden");
-                            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
-                        }
-                        return; // Exit after finding one word
+            if (!pWord.found && pWord.word.split('').sort().join('') === selLetters) {
+                if (pWord.coords.every(coord => selectedCells.some(sc => sc.row === coord.row && sc.col === coord.col))) {
+                    pWord.found = true;
+                    const color = foundColors[foundWordsCount % foundColors.length];
+                    foundWordsCount++;
+                    pWord.coords.forEach(coord => {
+                        const cell = document.querySelector(`[data-row="${coord.row}"][data-col="${coord.col}"]`);
+                        cell.classList.remove('highlight'); cell.style.backgroundColor = color;
+                        cell.style.color = 'white'; cell.style.boxShadow = 'none';
+                    });
+                    document.getElementById(`word-list-${pWord.word}`).classList.add('found');
+                    selectedCells = [];
+                    document.querySelectorAll('.grid-item.highlight').forEach(e => e.classList.remove('highlight'));
+                    if (foundWordsCount === wordList.length) {
+                        document.getElementById("celebration").classList.remove("hidden");
+                        confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
                     }
+                    return;
                 }
             }
         }
     }
 
-    function restartGame() {
-      generateGrid();
-    }
+    function restartGame() { generateGrid(); }
 
-    // Initialize the game
+    document.getElementById('menu-button').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
+    });
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
+
     generateGrid();
   </script>
 </body>

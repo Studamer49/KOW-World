@@ -3,43 +3,178 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KOW | News</title>
+  <title>KOW | News Flash</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="kow-style.css">
   <link rel="stylesheet" href="buttons.css">
   <style>
     html { scroll-behavior: smooth; }
+    .news-article { 
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+      cursor: pointer; 
+      border: 4px solid white;
+      box-shadow: 0 8px 0px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .news-article:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+      filter: brightness(1.05);
+    }
+    .news-article:active {
+      transform: translateY(2px);
+      box-shadow: 0 4px 0px rgba(0,0,0,0.1);
+    }
+    .news-content { 
+      max-height: 0; 
+      overflow: hidden; 
+      transition: max-height 0.5s ease-out, opacity 0.3s; 
+      opacity: 0;
+    }
+    .news-article.active .news-content { 
+      max-height: 1000px; 
+      opacity: 1;
+      padding-top: 1.5rem; 
+      margin-top: 1rem;
+      border-top: 2px dashed rgba(0,0,0,0.1);
+    }
+    .news-article.active { 
+      transform: scale(1.02);
+      z-index: 10;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    
+    .article-short { 
+      background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%); 
+      border-color: #3a86ff !important;
+    }
+    .article-long { 
+      background: linear-gradient(135deg, #ffffff 0%, #fce7f3 100%); 
+      border-color: #ff006e !important;
+    }
+
+    .arrow { 
+      transition: transform 0.4s; 
+      display: inline-block;
+      background: rgba(0,0,0,0.05);
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 50%;
+    }
+    .news-article.active .arrow { transform: rotate(180deg); background: rgba(0,0,0,0.1); }
   </style>
 </head>
-<body class="bg-gradient-to-br from-pink-100 to-white text-gray-800 font-sans">
-  <!-- Navbar -->
-  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
-    <h1 class="text-2xl font-bold text-white animate-bounce">🌍 Kids Online World</h1>
-    <button onclick="window.location.href='index.html'" class="button button-red">🏠 Home</button>
+<body class="bg-gradient-to-br from-yellow-400 via-pink-500 to-blue-500 text-gray-800 font-sans min-h-screen pb-20">
+  
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-black text-pink-600 italic">FUN MENU!</h2>
+          <button id="close-sidebar" class="text-4xl font-bold text-blue-500">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full text-xl">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full text-xl">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full text-xl text-gray-800">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full text-xl">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full text-xl">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full text-xl text-gray-800">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full text-xl text-gray-800">⏰ Time</button>
+      </div>
+  </div>
+
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-5xl font-bold mr-6 hover:scale-110 transition-transform">☰</button>
+      <h1 class="text-4xl font-black text-white glow-text animate-bounce cursor-pointer tracking-tighter" onclick="window.location.href='index.html'">🌍 KIDS ONLINE WORLD</h1>
+    </div>
   </nav>
 
-  <!-- News Section -->
-  <section class="px-6 py-10 max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-blue-600 text-center mb-6">🗞️ Latest News for Kids</h2>
-    <div class="space-y-6">
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h3 class="text-2xl font-bold text-pink-600 mb-2">NASA's New Rocket Launches!</h3>
-        <p class="text-gray-700">In an exciting development for space exploration, NASA has successfully launched its new-generation rocket, the Artemis I. This uncrewed mission is the first in a series of increasingly complex missions that will enable human exploration to the Moon and Mars. The rocket, the most powerful in the world, lifted off from Kennedy Space Center, carrying the Orion spacecraft. Scientists and space enthusiasts around the globe are celebrating this monumental achievement, which marks a new chapter in our journey to the stars.</p>
+  <section class="px-6 py-10 max-w-5xl mx-auto">
+    <h2 class="text-6xl font-black text-orange-500 text-center mb-12 glow-text">🗞️ KOW News Flash</h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <!-- Short Articles Section -->
+      <div>
+        <h3 class="text-4xl font-black text-blue-600 mb-6 glow-text flex items-center">
+            <span class="mr-3">⚡</span> Short News
+        </h3>
+        <div id="short-news-container" class="space-y-4">
+            <!-- Short items -->
+        </div>
       </div>
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h3 class="text-2xl font-bold text-pink-600 mb-2">World's Largest Ice Cream!</h3>
-        <p class="text-gray-700">A team of chefs in Italy has broken the world record for the largest ice cream cone ever made. The gigantic dessert, standing over 3 meters tall, was filled with delicious scoops of strawberry, chocolate, and vanilla ice cream. The event, which took place in a sunny town square, attracted thousands of visitors who were all eager to get a taste of the record-breaking treat. The team hopes their creation will inspire joy and a sense of community. 🍦</p>
-      </div>
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h3 class="text-2xl font-bold text-pink-600 mb-2">Young Chess Champ Wins Big</h3>
-        <p class="text-gray-700">A 10-year-old chess prodigy from India has made headlines by winning a major international chess tournament. Competing against players twice her age, she demonstrated remarkable skill and strategy, earning the title of Grandmaster. Her victory is seen as an inspiration for young aspiring chess players everywhere, proving that with dedication and hard work, age is just a number. The young champion is now preparing for the world championships, where she hopes to continue her winning streak. ♟️</p>
+
+      <!-- Long Articles Section -->
+      <div>
+        <h3 class="text-4xl font-black text-pink-600 mb-6 glow-text flex items-center">
+            <span class="mr-3">📖</span> Big Stories
+        </h3>
+        <div id="long-news-container" class="space-y-4">
+            <!-- Long items -->
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Scroll to Top Button -->
-  <button class="button button-red" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-  ⬆️ Top
-</button>
-  
+  <!-- Footer -->
+  <footer class="bg-white py-12 border-t-8 border-yellow-400 text-center relative mt-20">
+    <div class="max-w-md mx-auto">
+      <p class="text-2xl font-black text-pink-600 mb-2">🌍 Kids Online World</p>
+      <p class="text-gray-500 font-bold">© 2025 | Made with ❤️ by Vivu ✨</p>
+    </div>
+    <a href="kow-news-editor.html" class="absolute bottom-2 right-2 text-gray-200 hover:text-gray-400 text-xs">Admin</a>
+  </footer>
+
+  <script>
+    function toggleNews(element) {
+        const isActive = element.classList.contains('active');
+        document.querySelectorAll('.news-article').forEach(item => item.classList.remove('active'));
+        if (!isActive) element.classList.add('active');
+    }
+
+    function renderArticle(item, containerId) {
+        const container = document.getElementById(containerId);
+        const div = document.createElement('div');
+        div.className = `news-article p-8 rounded-3xl ${item.type === 'short' ? 'article-short' : 'article-long'}`;
+        div.onclick = function() { toggleNews(this); };
+        div.innerHTML = `
+            <div class="flex justify-between items-center">
+                <h3 class="text-2xl font-black ${item.type === 'short' ? 'text-blue-600' : 'text-pink-600'}">${item.emoji} ${item.title}</h3>
+                <span class="arrow text-sm">▼</span>
+            </div>
+            <div class="news-content">
+                <p class="text-gray-700 text-xl font-medium leading-relaxed">${item.content}</p>
+                ${item.date ? `<p class="text-xs text-gray-400 mt-4 font-bold italic tracking-wide uppercase">📅 Published: ${item.date}</p>` : ''}
+            </div>
+        `;
+        container.appendChild(div);
+    }
+
+    // Sidebar Logic
+    document.getElementById('menu-button').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
+    });
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
+
+    // Load News
+    const allNews = JSON.parse(localStorage.getItem('kow_all_news') || '[]');
+    allNews.forEach(item => {
+        if (item.type === 'short') {
+            renderArticle(item, 'short-news-container');
+        } else {
+            renderArticle(item, 'long-news-container');
+        }
+    });
+  </script>
 </body>
 </html>

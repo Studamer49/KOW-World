@@ -3,140 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KOW Studies</title>
+  <title>KOW | Studies</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="kow-style.css">
   <link rel="stylesheet" href="buttons.css">
   <style>
     html { scroll-behavior: smooth; }
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-    .nav-links a {
-      padding: 0.5rem 1rem;
-      width: 100%;
-      text-align: center;
-    }
-    @media (min-width: 768px) {
-      .nav-links {
-        display: flex;
-        flex-direction: row;
-        width: auto;
-      }
-      #menu-button {
-        display: none;
-      }
-    }
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-10px);
-      }
-      60% {
-        transform: translateY(-5px);
-      }
-    }
-    .element {
-      animation-name: bounce;
-      animation-duration: 1s; /* Duration of the animation */
-      animation-timing-function: ease-in-out; /* Animation speed */
-      animation-iteration-count: infinite; /* Repeat the animation */
-    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-sky-100 to-white text-gray-800 font-sans">
-  <!-- Navbar -->
-  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
-    <h1 class="text-2xl font-bold text-white animate-bounce">🌍 Kids Online World</h1>
-    <button onclick="window.location.href='index.html'" class="button button-green">🏠 Home</button>
+<body class="bg-gradient-to-br from-yellow-400 via-pink-500 to-blue-500 text-gray-800 font-sans min-h-screen">
+  
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-black text-pink-600 italic">FUN MENU!</h2>
+          <button id="close-sidebar" class="text-4xl font-bold text-blue-500">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full text-xl">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full text-xl">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full text-xl text-gray-800">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full text-xl">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full text-xl">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full text-xl text-gray-800">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full text-xl text-gray-800">⏰ Time</button>
+      </div>
+  </div>
+
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-5xl font-bold mr-6 hover:scale-110 transition-transform">☰</button>
+      <h1 class="text-4xl font-black text-white glow-text animate-bounce cursor-pointer tracking-tighter" onclick="window.location.href='index.html'">🌍 KIDS ONLINE WORLD</h1>
+    </div>
   </nav>
 
-  <div class="container mx-auto p-6">
-    <h1 class="text-4xl font-bold text-blue-600 text-center mb-8">KOW Studies - Educational Content</h1>
+  <div class="container mx-auto p-6 max-w-6xl">
+    <h2 class="text-7xl font-black text-white text-center mb-12 glow-text uppercase leading-none">📚 Learning Zone!</h2>
 
-    <section id="math" class="mb-8 p-6 bg-white rounded-xl shadow-md">
-        <h2 class="text-3xl font-bold text-green-600 mb-4">Math</h2>
-        <p class="text-lg text-gray-700 mb-4">Explore various math topics from basic arithmetic to advanced calculus.</p>
-        <ul class="space-y-4">
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.khanacademy.org/math/algebra" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Algebra Basics</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.khanacademy.org/math/geometry" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Geometry Fundamentals</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.khanacademy.org/math/calculus-1" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Introduction to Calculus</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.khanacademy.org/math/statistics-probability" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Statistics for Beginners</a>
-            </li>
-        </ul>
-    </section>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Math -->
+        <section class="card-bright bg-green-400 p-8 rounded-3xl shadow-xl border-white">
+            <div class="text-7xl mb-4 text-center">🔢</div>
+            <h3 class="text-3xl font-black text-green-900 mb-4 text-center uppercase">Math</h3>
+            <p class="text-green-800 font-bold mb-6 text-center">Numbers are fun! Let's solve some puzzles.</p>
+            <ul class="space-y-3">
+                <li><a href="https://www.khanacademy.org/math/algebra" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-green-600 hover:scale-105 transition-transform text-center shadow-md">Algebra Basics</a></li>
+                <li><a href="https://www.khanacademy.org/math/geometry" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-green-600 hover:scale-105 transition-transform text-center shadow-md">Geometry Fun</a></li>
+            </ul>
+        </section>
 
-    <section id="grammar" class="mb-8 p-6 bg-white rounded-xl shadow-md">
-        <h2 class="text-3xl font-bold text-green-600 mb-4">Grammar</h2>
-        <p class="text-lg text-gray-700 mb-4">Improve your language skills with our comprehensive grammar guides.</p>
-        <ul class="space-y-4">
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.grammarly.com/blog/parts-of-speech/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Parts of Speech</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.grammarly.com/blog/sentence-structure/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Sentence Structure</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.grammarly.com/blog/punctuation-rules/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Punctuation Rules</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.grammarly.com/blog/common-grammar-mistakes/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Common Grammar Mistakes</a>
-            </li>
-        </ul>
-    </section>
+        <!-- Grammar -->
+        <section class="card-bright bg-purple-500 p-8 rounded-3xl shadow-xl border-white text-white">
+            <div class="text-7xl mb-4 text-center">✍️</div>
+            <h3 class="text-3xl font-black mb-4 text-center uppercase">Grammar</h3>
+            <p class="text-purple-100 font-bold mb-6 text-center">Master your words and write amazing stories!</p>
+            <ul class="space-y-3">
+                <li><a href="https://www.grammarly.com/blog/parts-of-speech/" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-purple-600 hover:scale-105 transition-transform text-center shadow-md">Parts of Speech</a></li>
+                <li><a href="https://www.grammarly.com/blog/sentence-structure/" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-purple-600 hover:scale-105 transition-transform text-center shadow-md">Sentence Fun</a></li>
+            </ul>
+        </section>
 
-    <section id="science" class="mb-8 p-6 bg-white rounded-xl shadow-md">
-        <h2 class="text-3xl font-bold text-green-600 mb-4">Science</h2>
-        <p class="text-lg text-gray-700 mb-4">Dive into the fascinating world of science, covering Physics, Chemistry, and Biology.</p>
-        <ul class="space-y-4">
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.khanacademy.org/science/physics" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Physics Principles</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.khanacademy.org/science/chemistry" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Chemical Reactions</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.khanacademy.org/science/biology" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Biology: Cells and Life</a>
-            </li>
-            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <a href="https://www.nationalgeographic.org/encyclopedia/environmental-science/" target="_blank" class="text-xl font-bold text-blue-600 hover:underline">Environmental Science</a>
-            </li>
-        </ul>
-    </section>
+        <!-- Science -->
+        <section class="card-bright bg-blue-500 p-8 rounded-3xl shadow-xl border-white text-white">
+            <div class="text-7xl mb-4 text-center">🧪</div>
+            <h3 class="text-3xl font-black mb-4 text-center uppercase">Science</h3>
+            <p class="text-blue-100 font-bold mb-6 text-center">Explore the amazing world of nature!</p>
+            <ul class="space-y-3">
+                <li><a href="https://www.khanacademy.org/science/physics" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-blue-600 hover:scale-105 transition-transform text-center shadow-md">Physics Power</a></li>
+                <li><a href="https://www.khanacademy.org/science/biology" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-blue-600 hover:scale-105 transition-transform text-center shadow-md">Biology & Life</a></li>
+            </ul>
+        </section>
+
+        <!-- Space -->
+        <section class="card-bright bg-yellow-400 p-8 rounded-3xl shadow-xl border-white">
+            <div class="text-7xl mb-4 text-center">🚀</div>
+            <h3 class="text-3xl font-black text-yellow-900 mb-4 text-center uppercase">Space</h3>
+            <p class="text-yellow-800 font-bold mb-6 text-center">Planets, stars, and galaxies await!</p>
+            <ul class="space-y-3">
+                <li><a href="https://solarsystem.nasa.gov/planets/overview/" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-yellow-600 hover:scale-105 transition-transform text-center shadow-md">Our Solar System</a></li>
+                <li><a href="https://www.nasa.gov/kidsclub/index.html" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-yellow-600 hover:scale-105 transition-transform text-center shadow-md">NASA Kids Club</a></li>
+            </ul>
+        </section>
+
+        <!-- Geography -->
+        <section class="card-bright bg-pink-500 p-8 rounded-3xl shadow-xl border-white text-white">
+            <div class="text-7xl mb-4 text-center">🗺️</div>
+            <h3 class="text-3xl font-black mb-4 text-center uppercase">Geography</h3>
+            <p class="text-pink-100 font-bold mb-6 text-center">Discover amazing countries and cultures!</p>
+            <ul class="space-y-3">
+                <li><a href="https://kids.nationalgeographic.com/geography/countries" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-pink-600 hover:scale-105 transition-transform text-center shadow-md">Explore Nations</a></li>
+                <li><a href="https://www.google.com/earth/" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-pink-600 hover:scale-105 transition-transform text-center shadow-md">Google Earth</a></li>
+            </ul>
+        </section>
+
+        <!-- History -->
+        <section class="card-bright bg-red-500 p-8 rounded-3xl shadow-xl border-white text-white">
+            <div class="text-7xl mb-4 text-center">🏛️</div>
+            <h3 class="text-3xl font-black mb-4 text-center uppercase">History</h3>
+            <p class="text-red-100 font-bold mb-6 text-center">Travel back in time to meet heroes!</p>
+            <ul class="space-y-3">
+                <li><a href="https://www.ducksters.com/history/" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-red-600 hover:scale-105 transition-transform text-center shadow-md">Ancient Times</a></li>
+                <li><a href="https://www.historyforkids.net/" target="_blank" class="block p-4 bg-white rounded-2xl font-black text-red-600 hover:scale-105 transition-transform text-center shadow-md">History for Kids</a></li>
+            </ul>
+        </section>
+    </div>
   </div>
-  
 
-  <!-- Scroll to Top Button -->
-  <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="button button-red">
-  ⬆️ Top
-</button>
-
-  <!-- Footer -->
-  <footer class="bg-gray-100 py-6 mt-10 text-gray-600 text-sm">
-    <div class="max-w-md mx-auto text-center">
-      © 2025 Kids Online World | Made with ❤️ by Vivu ✨
+  <footer class="bg-white py-16 border-t-8 border-pink-500 text-center mt-20">
+    <div class="max-w-md mx-auto">
+      <p class="text-4xl font-black text-pink-600 mb-4 tracking-tighter">🌍 KIDS ONLINE WORLD</p>
+      <p class="text-gray-500 font-black">© 2025 | MADE WITH ❤️ BY VIVU ✨</p>
     </div>
   </footer>
+
   <script>
-    document.getElementById('menu-button').addEventListener('click', function() {
-      var navLinks = document.getElementById('nav-links');
-      if (navLinks.style.display === 'flex') {
-        navLinks.style.display = 'none';
-      } else {
-        navLinks.style.display = 'flex';
-      }
+    document.getElementById('menu-button').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
     });
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
   </script>
 </body>
 </html>

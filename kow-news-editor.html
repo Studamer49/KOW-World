@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOW | News Editor</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="kow-style.css">
+  <link rel="stylesheet" href="buttons.css">
+</head>
+<body class="bg-gradient-to-br from-yellow-50 via-pink-50 to-blue-50 text-gray-800 font-sans min-h-screen pb-20">
+  
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-2xl font-black text-pink-600">Menu</h2>
+          <button id="close-sidebar" class="text-3xl">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full">⏰ Time</button>
+      </div>
+  </div>
+
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-4xl font-bold mr-4">☰</button>
+      <h1 class="text-3xl font-black text-pink-600 animate-bounce glow-text cursor-pointer" onclick="window.location.href='index.html'">🌍 KOW EDITOR</h1>
+    </div>
+    <button onclick="window.location.href='kow-news.html'" class="button button-blue">🗞️ View News Page</button>
+  </nav>
+
+  <div class="container mx-auto p-6 max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <div class="game-container p-8 h-fit">
+      <h2 class="text-3xl font-black text-pink-600 mb-6 glow-text">🚀 Post New News</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-lg font-bold text-gray-700 mb-1">Article Type</label>
+          <select id="news-type" class="w-full p-3 rounded-xl border-4 border-pink-200 focus:border-pink-500 outline-none font-bold">
+            <option value="short">Short Article (Quick News)</option>
+            <option value="long" selected>Long Article (Big Story)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-lg font-bold text-gray-700 mb-1">Headline</label>
+          <input type="text" id="news-title" placeholder="Enter headline..." class="w-full p-3 rounded-xl border-4 border-pink-200 focus:border-pink-500 outline-none font-bold">
+        </div>
+        <div>
+          <label class="block text-lg font-bold text-gray-700 mb-1">Content</label>
+          <textarea id="news-content" rows="5" placeholder="Write the story here..." class="w-full p-3 rounded-xl border-4 border-pink-200 focus:border-pink-500 outline-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-lg font-bold text-gray-700 mb-1">Emoji Icon</label>
+          <input type="text" id="news-emoji" placeholder="🗞️" class="w-full p-3 rounded-xl border-4 border-pink-200 focus:border-pink-500 outline-none text-2xl">
+        </div>
+        <button onclick="saveNews()" class="button button-pink w-full text-xl py-4">Publish News!</button>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-2xl font-black text-blue-600 mb-4 glow-text">📰 All Current Articles</h3>
+      <div id="news-list" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+        <!-- All news list -->
+      </div>
+      <button onclick="resetNews()" class="mt-6 text-red-500 font-bold hover:underline text-sm block">♻️ Reset to Original System Articles</button>
+    </div>
+  </div>
+
+  <script>
+    const defaultSystemArticles = [
+      { type: 'long', emoji: '🚀', title: 'Earth Gets a Temporary Mini-Moon!', content: "Astronomers have discovered a small asteroid that has been captured by Earth's gravity. It will circle our planet for a few months before heading back out into deep space!" },
+      { type: 'long', emoji: '🐼', title: 'Twin Panda Cubs Born!', content: "Two tiny, pink, and fuzzy panda cubs were born this week! They are being well-cared for by their mama panda." },
+      { type: 'short', emoji: '🥞', title: 'Robot Pancake Chef!', content: "A new robot can flip perfect pancakes in the shape of stars and dinosaurs!" },
+      { type: 'long', emoji: '🦋', title: 'Rare Blue Butterfly Found!', content: "A butterfly thought to be extinct was spotted in the Amazon rainforest today. Its wings are a brilliant, glowing blue!" },
+      { type: 'short', emoji: '🎮', title: 'Coding Game Viral!', content: "CodeQuest is now the #1 game in schools worldwide. Kids are learning to code while having fun!" },
+      { type: 'long', emoji: '🌳', title: '1 Million Trees Planted!', content: "In a massive 'Green Day' event, children from all over the world joined together to plant trees in their communities." },
+      { type: 'short', emoji: '🛹', title: 'Skateboarding Legend!', content: "A 7-year-old girl just became the youngest pro skater. She says her secret is never giving up!" },
+      { type: 'long', emoji: '🐟', title: 'Glowing Deep-Sea Fish!', content: "Explorers found fish that glow like neon signs in the deepest parts of the ocean." },
+      { type: 'short', emoji: '🏺', title: 'Ancient Toy Discovery!', content: "A 2,000 year old wooden horse on wheels was found in a cave. Fun is timeless!" },
+      { type: 'long', emoji: '城堡', emoji: '🏰', title: 'Recycled Plastic School!', content: "A school made entirely of recycled bottles has opened in Bali. It's super strong and colorful!" }
+    ];
+
+    function initNews() {
+      if (!localStorage.getItem('kow_all_news')) {
+        localStorage.setItem('kow_all_news', JSON.stringify(defaultSystemArticles));
+      }
+      loadNewsList();
+    }
+
+    function saveNews() {
+      const type = document.getElementById('news-type').value;
+      const title = document.getElementById('news-title').value;
+      const content = document.getElementById('news-content').value;
+      const emoji = document.getElementById('news-emoji').value || '🗞️';
+
+      if (!title || !content) { alert("Fill in title and content!"); return; }
+
+      const newsItem = { type, title, content, emoji, date: new Date().toLocaleDateString() };
+      let newsList = JSON.parse(localStorage.getItem('kow_all_news') || '[]');
+      newsList.unshift(newsItem);
+      localStorage.setItem('kow_all_news', JSON.stringify(newsList));
+
+      document.getElementById('news-title').value = '';
+      document.getElementById('news-content').value = '';
+      loadNewsList();
+      alert("Published successfully!");
+    }
+
+    function loadNewsList() {
+      const list = document.getElementById('news-list');
+      const newsList = JSON.parse(localStorage.getItem('kow_all_news') || '[]');
+      list.innerHTML = '';
+
+      newsList.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'bg-white p-3 rounded-xl shadow-sm flex justify-between items-center border-l-4 ' + (item.type === 'short' ? 'border-blue-400' : 'border-pink-400');
+        div.innerHTML = `
+          <div class="truncate mr-2">
+            <span class="font-bold text-xs ${item.type === 'short' ? 'text-blue-500' : 'text-pink-500'}">[${item.type.toUpperCase()}]</span> 
+            ${item.emoji} <strong>${item.title}</strong>
+          </div>
+          <button onclick="deleteItem(${index})" class="text-red-400 hover:text-red-600">❌</button>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function deleteItem(index) {
+      if(confirm("Delete this article?")) {
+        let newsList = JSON.parse(localStorage.getItem('kow_all_news') || '[]');
+        newsList.splice(index, 1);
+        localStorage.setItem('kow_all_news', JSON.stringify(newsList));
+        loadNewsList();
+      }
+    }
+
+    function resetNews() {
+      if(confirm("This will delete EVERYTHING and restore the 10 original articles. Continue?")) {
+        localStorage.setItem('kow_all_news', JSON.stringify(defaultSystemArticles));
+        loadNewsList();
+      }
+    }
+
+    // Sidebar Logic
+    document.getElementById('menu-button').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
+    });
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+
+    // Self Awareness
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
+
+    initNews();
+  </script>
+</body>
+</html>

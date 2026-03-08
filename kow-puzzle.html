@@ -5,62 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Puzzle Game - Sliding Puzzle</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="kow-style.css">
   <link rel="stylesheet" href="buttons.css">
   <style>
     #puzzle-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-gap: 2px;
+      grid-gap: 5px;
       justify-content: center;
       margin: 20px auto;
       max-width: 400px;
-      border: 3px solid #333;
-      background-color: #666;
+      background-color: var(--neon-blue);
       aspect-ratio: 1 / 1;
+      padding: 5px;
+      border-radius: 12px;
     }
     .puzzle-piece {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2em;
-      font-weight: bold;
+      font-size: 2.5em;
+      font-weight: 900;
       color: #333;
       background-color: #f0f0f0;
-      border: 1px solid #fff;
       cursor: pointer;
-      transition: transform 0.2s ease-in-out;
+      transition: all 0.2s;
+      border-radius: 8px;
     }
+    .puzzle-piece:hover { background-color: white; }
     .puzzle-piece.empty {
-      background-image: none;
-      background-color: #666;
+      background-color: transparent;
       cursor: default;
-    }
-    #celebration {
-      display: none;
-      font-size: 24px;
-      font-weight: bold;
-      color: green;
     }
   </style>
 </head>
-<body class="bg-blue-100 text-center p-6 pt-20">
-  <div class="fixed top-0 left-0 w-full bg-blue-100 p-4 z-50 flex flex-wrap justify-center">
-    <button onclick="window.location.href='index.html'" class="button button-blue">🏠 Home</button>
-    <button onclick="window.location.href='kow-games.html'" class="button button-green">🎮 Games</button>
-    <button onclick="startGame()" class="button button-red">🔄 Restart Game</button>
+<body class="bg-gradient-to-br from-yellow-400 via-pink-500 to-blue-500 text-gray-800 font-sans min-h-screen pb-20">
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-black text-pink-600 italic">FUN MENU!</h2>
+          <button id="close-sidebar" class="text-4xl font-bold text-blue-500">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full text-xl">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full text-xl">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full text-xl text-gray-800">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full text-xl">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full text-xl">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full text-xl text-gray-800">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full text-xl text-gray-800">⏰ Time</button>
+      </div>
   </div>
 
-  <h1 class="text-3xl font-bold text-pink-600">🧩 Sliding Puzzle</h1>
-  <p class="text-gray-700 mt-2">Click a tile next to the empty space to move it.</p>
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-5xl font-bold mr-6 hover:scale-110 transition-transform">☰</button>
+      <h1 class="text-4xl font-black text-white glow-text animate-bounce cursor-pointer tracking-tighter" onclick="window.location.href='index.html'">🌍 KIDS ONLINE WORLD</h1>
+    </div>
+  </nav>
 
-  <div id="puzzle-container"></div>
+  <section class="text-center p-6">
+    <h1 class="text-5xl font-black text-pink-600 glow-text mb-4">🧩 Sliding Puzzle</h1>
+    <p class="text-xl text-gray-700 mb-8 font-bold">Solve the puzzle to be a Ninja! 🥷</p>
 
-  <div id="celebration" class="mt-6 text-2xl font-bold text-green-600">🎉 Well Done! You solved the puzzle! 🎉</div>
+    <div class="game-container inline-block p-6 shadow-2xl">
+        <div id="puzzle-container"></div>
+    </div>
 
-  <!-- Scroll to Top Button -->
-  <button class="button button-red" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-  ⬆️ Top
-</button>
+    <div id="celebration" class="mt-6 text-2xl font-bold text-green-600 hidden">🎉 Well Done! You solved the puzzle! 🎉</div>
+
+    <div class="mt-12 flex justify-center gap-4">
+        <button onclick="startGame()" class="button button-pink text-xl">🔄 Restart</button>
+        <button onclick="window.location.href='kow-games.html'" class="button button-blue text-xl">🎮 More Games</button>
+    </div>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
@@ -73,13 +91,11 @@
     function createTile(index, row, col) {
       const tile = document.createElement('div');
       tile.className = 'puzzle-piece';
-      
       if (index === gridSize * gridSize - 1) {
         tile.classList.add('empty');
       } else {
         tile.textContent = index + 1;
       }
-      
       tile.onclick = () => moveTile(row, col);
       return tile;
     }
@@ -87,14 +103,11 @@
     function moveTile(row, col) {
       const dr = Math.abs(row - emptyTile.row);
       const dc = Math.abs(col - emptyTile.col);
-
       if ((dr === 1 && dc === 0) || (dr === 0 && dc === 1)) {
         const tileIndex = row * gridSize + col;
         const emptyIndex = emptyTile.row * gridSize + emptyTile.col;
-        
         [tiles[tileIndex], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[tileIndex]];
         [emptyTile.row, emptyTile.col] = [row, col];
-        
         render();
         checkWin();
       }
@@ -106,8 +119,7 @@
         for (let j = 0; j < gridSize; j++) {
           const index = i * gridSize + j;
           const tileData = tiles[index];
-          const tile = createTile(tileData, i, j);
-          puzzleContainer.appendChild(tile);
+          puzzleContainer.appendChild(createTile(tileData, i, j));
         }
       }
     }
@@ -115,41 +127,52 @@
     function checkWin() {
       for (let i = 0; i < tiles.length - 1; i++) {
         if (tiles[i] !== i) {
-          celebration.style.display = 'none';
+          celebration.classList.add('hidden');
           return;
         }
       }
-      celebration.style.display = 'block';
+      celebration.classList.remove('hidden');
       confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
     }
 
     function shuffle() {
-      let lastMove = -1; 
-      for (let i = 0; i < 1000; i++) {
-        const possibleMoves = [];
+      tiles = Array.from({ length: gridSize * gridSize }, (_, i) => i);
+      emptyTile = { row: gridSize - 1, col: gridSize - 1 };
+      for (let i = 0; i < 200; i++) {
         const { row, col } = emptyTile;
-
-        if (row > 0 && lastMove !== 0) possibleMoves.push(0); // Up
-        if (row < gridSize - 1 && lastMove !== 1) possibleMoves.push(1); // Down
-        if (col > 0 && lastMove !== 2) possibleMoves.push(2); // Left
-        if (col < gridSize - 1 && lastMove !== 3) possibleMoves.push(3); // Right
-        
-        const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-
-        if (move === 0) { moveTile(row - 1, col); lastMove = 1; }
-        if (move === 1) { moveTile(row + 1, col); lastMove = 0; }
-        if (move === 2) { moveTile(row, col - 1); lastMove = 3; }
-        if (move === 3) { moveTile(row, col + 1); lastMove = 2; }
+        const moves = [];
+        if (row > 0) moves.push({row: row - 1, col: col});
+        if (row < gridSize - 1) moves.push({row: row + 1, col: col});
+        if (col > 0) moves.push({row: row, col: col - 1});
+        if (col < gridSize - 1) moves.push({row: row, col: col + 1});
+        const move = moves[Math.floor(Math.random() * moves.length)];
+        const tileIndex = move.row * gridSize + move.col;
+        const emptyIndex = emptyTile.row * gridSize + emptyTile.col;
+        [tiles[tileIndex], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[tileIndex]];
+        emptyTile = move;
       }
     }
 
     function startGame() {
-      tiles = Array.from({ length: gridSize * gridSize }, (_, i) => i);
-      emptyTile = { row: gridSize - 1, col: gridSize - 1 };
-      celebration.style.display = 'none';
+      celebration.classList.add('hidden');
       shuffle();
       render();
     }
+
+    // Sidebar Logic
+    document.getElementById('menu-button').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
+    });
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
 
     startGame();
   </script>

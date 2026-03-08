@@ -5,40 +5,196 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KOW | Time Discipline</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="kow-style.css">
   <link rel="stylesheet" href="buttons.css">
   <style>
     html { scroll-behavior: smooth; }
   </style>
 </head>
-<body class="bg-gradient-to-br from-yellow-100 to-white text-gray-800 font-sans">
-  <!-- Navbar -->
-  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
-    <h1 class="text-2xl font-bold text-white animate-bounce">⏰ KOW Time Discipline</h1>
-    <button onclick="window.location.href='index.html'" class="button button-yellow">🏠 Home</button>
+<body class="bg-gradient-to-br from-yellow-400 via-pink-500 to-blue-500 text-gray-800 font-sans min-h-screen pb-20">
+  
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-black text-pink-600 italic">FUN MENU!</h2>
+          <button id="close-sidebar" class="text-4xl font-bold text-blue-500">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full text-xl">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full text-xl">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full text-xl text-gray-800">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full text-xl">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full text-xl">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full text-xl text-gray-800">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full text-xl text-gray-800">⏰ Time</button>
+      </div>
+  </div>
+
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-5xl font-bold mr-6 hover:scale-110 transition-transform">☰</button>
+      <h1 class="text-4xl font-black text-white glow-text animate-bounce cursor-pointer tracking-tighter" onclick="window.location.href='index.html'">🌍 KIDS ONLINE WORLD</h1>
+    </div>
   </nav>
 
-  <!-- Time Discipline Section -->
   <section class="px-6 py-10 max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-yellow-600 text-center mb-6">⏰ Learn Time Discipline</h2>
-    <div class="space-y-4">
-      <div class="bg-white p-4 rounded-xl shadow-md">
-        <h4 class="text-lg font-bold text-pink-600">Why Time Matters</h4>
-        <p>Time helps us stay organized, finish homework, and enjoy free time too!</p>
-      </div>
-      <div class="bg-white p-4 rounded-xl shadow-md">
-        <h4 class="text-lg font-bold text-pink-600">Make a Daily Schedule</h4>
-        <p>Plan your day with school, play, and rest. Stick to it and feel awesome! 📅</p>
-      </div>
-      <div class="bg-white p-4 rounded-xl shadow-md">
-        <h4 class="text-lg font-bold text-pink-600">Set a Timer</h4>
-        <p>Use a timer for tasks like reading, playing, or brushing your teeth.⏳</p>
-      </div>
-      <div class="bg-white p-4 rounded-xl shadow-md">
-        <h4 class="text-lg font-bold text-pink-600">Fun Rewards</h4>
-        <p>Finish tasks on time and give yourself a happy reward like stickers or extra game time! 🏆</p>
-      </div>
+    <h2 class="text-5xl font-black text-yellow-600 text-center mb-12 glow-text">⏰ Master Your Time!</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="card-bright bg-white p-8 rounded-3xl shadow-xl border-blue-400">
+            <h3 class="text-3xl font-bold text-blue-600 mb-4">Why is Time Important?</h3>
+            <p class="text-gray-600 text-lg leading-relaxed">Learning to manage your time helps you have more fun! When you finish your studies on time, you get more time for games and videos. 🚀</p>
+        </div>
+        <div class="card-bright bg-white p-8 rounded-3xl shadow-xl border-green-400">
+            <h3 class="text-3xl font-bold text-green-600 mb-4">Top Tips:</h3>
+            <ul class="list-disc pl-6 space-y-2 text-gray-700 font-bold">
+                <li>Make a To-Do list every morning!</li>
+                <li>Use a timer for your study sessions.</li>
+                <li>Take short breaks to stay fresh.</li>
+                <li>Finish the hard tasks first!</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-12 game-container p-10 text-center bg-white shadow-2xl rounded-3xl border-8 border-pink-400">
+        <h3 class="text-4xl font-black text-pink-600 mb-6 glow-text uppercase tracking-tight">⏱️ Fun Time Challenge!</h3>
+        
+        <!-- Timer Display -->
+        <div id="timer-display" class="text-8xl font-black text-blue-600 mb-8 font-mono bg-blue-50 py-10 rounded-3xl border-4 border-dashed border-blue-200 shadow-inner">15:00</div>
+        
+        <!-- Time Presets -->
+        <div class="flex flex-wrap justify-center gap-4 mb-10">
+            <button onclick="setTimer(5)" class="button button-yellow text-sm py-2 px-6">5 Min</button>
+            <button onclick="setTimer(10)" class="button button-orange text-sm py-2 px-6">10 Min</button>
+            <button onclick="setTimer(15)" class="button button-pink text-sm py-2 px-6">15 Min</button>
+            <button onclick="setTimer(25)" class="button button-purple text-sm py-2 px-6">25 Min</button>
+        </div>
+
+        <!-- Main Controls -->
+        <div class="flex justify-center gap-6">
+            <button id="start-pause-btn" onclick="toggleTimer()" class="button button-green text-2xl px-12 py-5 w-48">▶️ START</button>
+            <button onclick="resetTimer()" class="button button-blue text-2xl px-12 py-5">🔄 RESET</button>
+        </div>
+
+        <p id="timer-status" class="mt-8 text-xl text-gray-500 font-bold italic">Can you finish your next task before time runs out? 🚀</p>
     </div>
   </section>
-  
+
+  <footer class="bg-white py-12 border-t-8 border-yellow-400 text-center mt-20">
+    <div class="max-w-md mx-auto">
+      <p class="text-2xl font-black text-pink-600 mb-2">🌍 Kids Online World</p>
+      <p class="text-gray-500 font-bold">© 2025 | Made with ❤️ by Vivu ✨</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    let timeLeft = 15 * 60; // Default 15 minutes in seconds
+    let timerId = null;
+    let isPaused = true;
+
+    const display = document.getElementById('timer-display');
+    const startPauseBtn = document.getElementById('start-pause-btn');
+    const statusText = document.getElementById('timer-status');
+
+    function updateDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Visual feedback when time is low
+        if (timeLeft <= 60 && timeLeft > 0) {
+            display.classList.add('text-red-500', 'animate-pulse');
+            display.classList.remove('text-blue-600');
+        } else {
+            display.classList.remove('text-red-500', 'animate-pulse');
+            display.classList.add('text-blue-600');
+        }
+    }
+
+    function toggleTimer() {
+        if (isPaused) {
+            startTimer();
+        } else {
+            pauseTimer();
+        }
+    }
+
+    function startTimer() {
+        if (timeLeft <= 0) return;
+        
+        isPaused = false;
+        startPauseBtn.textContent = '⏸️ PAUSE';
+        startPauseBtn.className = 'button button-orange text-2xl px-12 py-5 w-48';
+        statusText.textContent = "Time is ticking! You've got this! 💪";
+        
+        timerId = setInterval(() => {
+            timeLeft--;
+            updateDisplay();
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                timerFinished();
+            }
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        isPaused = true;
+        clearInterval(timerId);
+        startPauseBtn.textContent = '▶️ START';
+        startPauseBtn.className = 'button button-green text-2xl px-12 py-5 w-48';
+        statusText.textContent = "Timer paused. Ready to continue? ✨";
+    }
+
+    function resetTimer() {
+        pauseTimer();
+        // Reset to last selected preset or default 15m
+        timeLeft = 15 * 60; 
+        updateDisplay();
+        statusText.textContent = "Timer reset! Choose your challenge! ⏱️";
+    }
+
+    function setTimer(minutes) {
+        pauseTimer();
+        timeLeft = minutes * 60;
+        updateDisplay();
+        statusText.textContent = `${minutes} minute challenge selected! Click Start! 🚀`;
+    }
+
+    function timerFinished() {
+        startPauseBtn.textContent = '🏆 DONE!';
+        startPauseBtn.disabled = true;
+        statusText.textContent = "YAY! CHALLENGE COMPLETE! 🎉";
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+        
+        // Re-enable after a few seconds
+        setTimeout(() => {
+            startPauseBtn.disabled = false;
+            startPauseBtn.textContent = '▶️ START';
+            startPauseBtn.className = 'button button-green text-2xl px-12 py-5 w-48';
+        }, 3000);
+    }
+
+    // Sidebar Logic
+    document.getElementById('menu-button').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
+    });
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
+
+    updateDisplay();
+  </script>
 </body>
 </html>

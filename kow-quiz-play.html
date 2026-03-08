@@ -5,142 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KOW | Quiz Play</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="kow-style.css">
   <link rel="stylesheet" href="buttons.css">
   <style>
     html { scroll-behavior: smooth; }
-    .question-container { margin-bottom: 1.5rem; padding: 1.5rem; background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-    .options label { display: block; margin-bottom: 0.5rem; cursor: pointer; }
-    .options input[type="radio"] { margin-right: 0.5rem; }
-    .feedback { margin-top: 1rem; font-weight: bold; }
-    .correct { color: green; }
-    .incorrect { color: red; }
+    .question-container { margin-bottom: 1.5rem; padding: 2rem; background-color: white; border-radius: 1.5rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); border: 2px solid transparent; transition: all 0.3s; }
+    .question-container:hover { border-color: var(--neon-blue); transform: translateY(-2px); }
+    .options label { display: block; margin-bottom: 0.75rem; cursor: pointer; padding: 0.75rem 1.25rem; background: #f8f9fa; border-radius: 1rem; transition: all 0.2s; font-weight: 600; }
+    .options label:hover { background: #e9ecef; color: var(--neon-blue); }
+    .options input[type="radio"] { margin-right: 0.75rem; transform: scale(1.2); }
+    .feedback { margin-top: 1.25rem; font-weight: 800; padding: 0.75rem; border-radius: 0.75rem; }
+    .correct { background-color: #d1fae5; color: #065f46; border-left: 5px solid #10b981; }
+    .incorrect { background-color: #fee2e2; color: #991b1b; border-left: 5px solid #ef4444; }
   </style>
 </head>
-<body class="bg-gradient-to-br from-green-100 to-white text-gray-800 font-sans">
-  <!-- Navbar -->
-  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
-    <h1 class="text-2xl font-bold text-white animate-bounce">❓ KOW Quiz</h1>
-    <button onclick="window.location.href='index.html'" class="button button-blue">🏠 Home</button>
-    <button onclick="window.location.href='kow-quizzes.html'" class="button button-green">Back to Quizzes</button>
+<body class="bg-gradient-to-br from-yellow-50 via-pink-50 to-blue-50 text-gray-800 font-sans min-h-screen pb-20">
+  
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-2xl font-black text-pink-600">Menu</h2>
+          <button id="close-sidebar" class="text-3xl">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full">⏰ Time</button>
+      </div>
+  </div>
+
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-4xl font-bold mr-4">☰</button>
+      <h1 class="text-3xl font-black text-pink-600 animate-bounce glow-text cursor-pointer" onclick="window.location.href='index.html'">🌍 KIDS ONLINE WORLD</h1>
+    </div>
   </nav>
 
   <section class="px-6 py-10 max-w-4xl mx-auto">
-    <h2 id="quiz-title" class="text-3xl font-bold text-green-600 text-center mb-6"></h2>
+    <div class="game-container mb-10">
+        <h2 id="quiz-title" class="text-5xl font-black text-purple-600 text-center glow-text"></h2>
+        <p class="text-center text-gray-500 mt-2 font-bold italic">Test your knowledge and be a superstar!</p>
+    </div>
     <form id="quiz-form">
       <div id="questions-container"></div>
-      <button type="submit" class="button button-purple">Submit Quiz</button>
+      <div class="text-center mt-10">
+        <button type="submit" class="button button-purple text-2xl px-12 py-4">✨ Submit Answers! ✨</button>
+      </div>
     </form>
-    <div id="quiz-results" class="mt-6 text-center text-2xl font-bold"></div>
+    <div id="quiz-results" class="mt-10 text-center text-4xl font-black glow-text text-pink-600"></div>
+    <div class="text-center mt-6">
+        <button onclick="location.reload()" class="button button-blue hidden" id="restart-btn">Try New Questions!</button>
+    </div>
   </section>
 
-  <!-- Scroll to Top Button -->
-  <button class="button button-red" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-  ⬆️ Top
-</button>
+  <footer class="bg-white py-12 border-t-8 border-yellow-400 text-center mt-20">
+    <div class="max-w-md mx-auto">
+      <p class="text-2xl font-black text-pink-600 mb-2">🌍 Kids Online World</p>
+      <p class="text-gray-500 font-bold">© 2025 | Made with ❤️ by Vivu ✨</p>
+    </div>
+  </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
     const quizzes = {
       gk: [
         { question: "What is the capital of France?", options: ["London", "Paris", "Rome", "Berlin"], answer: "Paris" },
         { question: "How many continents are there?", options: ["5", "6", "7", "8"], answer: "7" },
         { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: "Mars" },
-        { question: "What is the largest ocean on Earth?", options: ["Atlantic", "Indian", "Arctic", "Pacific"], answer: "Pacific" },
-        { question: "Who painted the Mona Lisa?", options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"], answer: "Leonardo da Vinci" },
-        { question: "What is the highest mountain in the world?", options: ["K2", "Mount Everest", "Kangchenjunga", "Lhotse"], answer: "Mount Everest" },
-        { question: "Which animal is known as the 'Ship of the Desert'?", options: ["Camel", "Horse", "Elephant", "Lion"], answer: "Camel" },
-        { question: "What is the chemical symbol for water?", options: ["O2", "H2O", "CO2", "NaCl"], answer: "H2O" },
-        { question: "How many legs does a spider have?", options: ["6", "8", "10", "4"], answer: "8" },
-        { question: "What is the hardest natural substance on Earth?", options: ["Gold", "Iron", "Diamond", "Quartz"], answer: "Diamond" }
+        { question: "What color are emeralds?", options: ["Blue", "Red", "Green", "Yellow"], answer: "Green" },
+        { question: "Which country is home to the Kangaroo?", options: ["India", "Australia", "South Africa", "Brazil"], answer: "Australia" },
+        { question: "Who was the first man to step on the moon?", options: ["Buzz Aldrin", "Neil Armstrong", "Yuri Gagarin", "John Glenn"], answer: "Neil Armstrong" },
+        { question: "In which direction does the sun rise?", options: ["West", "East", "North", "South"], answer: "East" }
       ],
       math: [
         { question: "What is 5 x 8?", options: ["35", "40", "45", "50"], answer: "40" },
         { question: "What is 12 + 19?", options: ["29", "31", "30", "21"], answer: "31" },
         { question: "What is 100 / 4?", options: ["20", "25", "30", "15"], answer: "25" },
-        { question: "What is 7 squared?", options: ["49", "14", "70", "77"], answer: "49" },
-        { question: "What is the square root of 81?", options: ["7", "8", "9", "10"], answer: "9" },
-        { question: "If a dozen eggs costs $3, how much do 4 eggs cost?", options: ["$1", "$1.50", "$2", "$0.75"], answer: "$1" },
-        { question: "What is 25% of 200?", options: ["25", "50", "75", "100"], answer: "50" },
-        { question: "What is the next number in the sequence: 2, 4, 6, 8, ...?", options: ["9", "10", "12", "11"], answer: "10" },
-        { question: "How many sides does a hexagon have?", options: ["5", "6", "7", "8"], answer: "6" },
-        { question: "What is 30 - 13?", options: ["15", "17", "13", "20"], answer: "17" }
+        { question: "What is 9 x 9?", options: ["18", "72", "81", "99"], answer: "81" },
+        { question: "How many minutes are in one hour?", options: ["50", "60", "100", "120"], answer: "60" }
       ],
       animals: [
         { question: "Which animal is the king of the jungle?", options: ["Tiger", "Lion", "Elephant", "Bear"], answer: "Lion" },
         { question: "Which bird can fly backwards?", options: ["Eagle", "Hummingbird", "Sparrow", "Pigeon"], answer: "Hummingbird" },
         { question: "What is the fastest land animal?", options: ["Lion", "Gazelle", "Cheetah", "Horse"], answer: "Cheetah" },
         { question: "Which sea animal has 8 arms?", options: ["Fish", "Shark", "Octopus", "Dolphin"], answer: "Octopus" },
-        { question: "What is a baby goat called?", options: ["Calf", "Kid", "Lamb", "Pup"], answer: "Kid" },
-        { question: "Which animal lays the largest egg?", options: ["Chicken", "Ostrich", "Eagle", "Penguin"], answer: "Ostrich" },
-        { question: "What is the only mammal that can truly fly?", options: ["Bird", "Bat", "Squirrel", "Glider"], answer: "Bat" },
-        { question: "Which animal is known for its long neck?", options: ["Elephant", "Zebra", "Giraffe", "Camel"], answer: "Giraffe" },
-        { question: "What do you call a group of lions?", options: ["Herd", "Pack", "Pride", "Flock"], answer: "Pride" },
-        { question: "Which animal is black and white and lives in China?", options: ["Zebra", "Penguin", "Panda", "Badger"], answer: "Panda" }
+        { question: "How many legs does an ant have?", options: ["4", "6", "8", "10"], answer: "6" }
       ]
     };
 
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
+    function shuffleArray(a) {
+      for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [a[i], a[j]] = [a[j], a[i]];
       }
-      return array;
+      return a;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const quizType = urlParams.get('type');
-      const quizQuestions = quizzes[quizType];
+      const type = urlParams.get('type');
+      const qs = quizzes[type];
+      if (!qs) return;
 
-      if (!quizQuestions) {
-        document.getElementById('quiz-title').textContent = 'Quiz Not Found!';
-        return;
-      }
+      document.getElementById('quiz-title').textContent = `${type.toUpperCase()} Quiz`;
+      const selected = shuffleArray([...qs]).slice(0, 5);
+      const container = document.getElementById('questions-container');
 
-      document.getElementById('quiz-title').textContent = `${quizType.charAt(0).toUpperCase() + quizType.slice(1)} Quiz`;
-      const selectedQuestions = shuffleArray([...quizQuestions]).slice(0, 5); // Get 5 random questions
-      const questionsContainer = document.getElementById('questions-container');
-      questionsContainer.innerHTML = '';
-
-      selectedQuestions.forEach((q, index) => {
-        const questionDiv = document.createElement('div');
-        questionDiv.className = 'question-container';
-        questionDiv.innerHTML = `
-          <p class="text-lg font-semibold mb-2">${index + 1}. ${q.question}</p>
+      selected.forEach((q, i) => {
+        const div = document.createElement('div');
+        div.className = 'question-container';
+        div.innerHTML = `
+          <p class="text-2xl font-black mb-4 text-blue-600">${i + 1}. ${q.question}</p>
           <div class="options">
-            ${q.options.map(option => `
-              <label>
-                <input type="radio" name="question${index}" value="${option}">
-                ${option}
-              </label>
-            `).join('')}
+            ${q.options.map(opt => `<label><input type="radio" name="q${i}" value="${opt}" required> ${opt}</label>`).join('')}
           </div>
-          <div id="feedback-${index}" class="feedback"></div>
+          <div id="fb${i}" class="feedback hidden"></div>
         `;
-        questionsContainer.appendChild(questionDiv);
+        container.appendChild(div);
       });
 
       document.getElementById('quiz-form').addEventListener('submit', (e) => {
         e.preventDefault();
         let score = 0;
-        selectedQuestions.forEach((q, index) => {
-          const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
-          const feedbackDiv = document.getElementById(`feedback-${index}`);
-          if (selectedOption) {
-            if (selectedOption.value === q.answer) {
-              score++;
-              feedbackDiv.textContent = 'Correct!';
-              feedbackDiv.className = 'feedback correct';
-            } else {
-              feedbackDiv.textContent = `Incorrect. The correct answer was ${q.answer}.`;
-              feedbackDiv.className = 'feedback incorrect';
-            }
-          } else {
-            feedbackDiv.textContent = 'Please select an answer.';
-            feedbackDiv.className = 'feedback incorrect';
-          }
+        selected.forEach((q, i) => {
+          const sel = document.querySelector(`input[name="q${i}"]:checked`);
+          const fb = document.getElementById(`fb${i}`);
+          fb.classList.remove('hidden');
+          if (sel.value === q.answer) { score++; fb.textContent = '🌟 Correct!'; fb.className = 'feedback correct'; }
+          else { fb.textContent = `❌ Oops! Correct: ${q.answer}`; fb.className = 'feedback incorrect'; }
         });
-        document.getElementById('quiz-results').textContent = `You scored ${score} out of ${selectedQuestions.length}!`;
+        document.getElementById('quiz-results').textContent = `Score: ${score}/${selected.length}`;
+        if (score === selected.length) confetti({ particleCount: 150 });
+        document.getElementById('restart-btn').classList.remove('hidden');
       });
+
+      document.getElementById('menu-button').addEventListener('click', () => {
+          document.getElementById('sidebar').classList.add('open');
+          document.getElementById('overlay').classList.add('show');
+      });
+      document.getElementById('overlay').addEventListener('click', closeSidebar);
+      document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+      function closeSidebar() {
+          document.getElementById('sidebar').classList.remove('open');
+          document.getElementById('overlay').classList.remove('show');
+      }
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
     });
   </script>
 </body>

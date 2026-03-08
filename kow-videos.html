@@ -5,108 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KOW | Videos</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="kow-style.css">
   <link rel="stylesheet" href="buttons.css">
   <style>
     html { scroll-behavior: smooth; }
-    #video-results {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
-    .video-item {
-      cursor: pointer;
-      background: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
-    .video-item:hover {
-      transform: scale(1.05);
-    }
-    .video-item img {
-      width: 100%;
-      border-top-left-radius: 0.5rem;
-      border-top-right-radius: 0.5rem;
-    }
-    .video-info {
-      padding: 1rem;
-      text-align: left;
-      flex-grow: 1;
-    }
-    .video-info h3 {
-      font-weight: 700;
-      color: #333;
-      margin-bottom: 0.5rem;
-    }
-    .video-info p {
-      font-size: 0.875rem;
-      color: #666;
-    }
-    #video-player-container {
-      position: relative;
-    }
-    #close-player {
-      position: absolute;
-      top: -1rem;
-      right: -1rem;
-      background: white;
-      border-radius: 9999px;
-      width: 2.5rem;
-      height: 2.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      font-size: 1.5rem;
-      line-height: 1;
-    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-pink-100 to-white text-gray-800 font-sans">
-  <!-- Navbar -->
-  <nav class="bg-yellow-400 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 flex-wrap">
-    <h1 class="text-2xl font-bold text-white animate-bounce">🌍 Kids Online World</h1>
-    <button onclick="window.location.href='index.html'" class="button button-yellow">🏠 Home</button>
+<body class="bg-gradient-to-br from-yellow-400 via-pink-500 to-blue-500 text-gray-800 font-sans min-h-screen">
+  <div id="overlay" class="overlay-kow"></div>
+  <div id="sidebar" class="sidebar-kow">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-black text-pink-600 italic">FUN MENU!</h2>
+          <button id="close-sidebar" class="text-4xl font-bold text-blue-500">✕</button>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <button onclick="window.location.href='index.html'" data-page="index.html" class="button button-blue w-full text-xl">🏠 Home</button>
+        <button onclick="window.location.href='kow-games.html'" data-page="kow-games.html" class="button button-pink w-full text-xl">🎮 Games</button>
+        <button onclick="window.location.href='kow-studies.html'" data-page="kow-studies.html" class="button button-green w-full text-xl text-gray-800">📚 Studies</button>
+        <button onclick="window.location.href='kow-quizzes.html'" data-page="kow-quizzes.html" class="button button-purple w-full text-xl">❓ Quizzes</button>
+        <button onclick="window.location.href='kow-news.html'" data-page="kow-news.html" class="button button-orange w-full text-xl">🗞️ News</button>
+        <button onclick="window.location.href='kow-videos.html'" data-page="kow-videos.html" class="button button-yellow w-full text-xl text-gray-800">🎥 Videos</button>
+        <button onclick="window.location.href='kow-timediscipline.html'" data-page="kow-timediscipline.html" class="button button-green w-full text-xl text-gray-800">⏰ Time</button>
+      </div>
+  </div>
+
+  <nav class="navbar-kow p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center">
+      <button id="menu-button" class="text-pink-600 text-5xl font-bold mr-6 hover:scale-110 transition-transform">☰</button>
+      <h1 class="text-4xl font-black text-white glow-text animate-bounce cursor-pointer tracking-tighter" onclick="window.location.href='index.html'">🌍 KIDS ONLINE WORLD</h1>
+    </div>
   </nav>
 
-  <!-- Videos Section -->
-  <section class="px-6 py-10 max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold text-red-500 text-center mb-6">🎥 Awesome Videos</h2>
-    <div class="flex justify-center mb-6">
-      <input type="text" id="search-query" class="w-full max-w-md px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="Search for videos like 'funny cats' or 'learn colors'...">
-      <button id="search-button" class="bg-red-500 text-white px-6 py-2 rounded-r-lg hover:bg-red-600">Search</button>
+  <section class="px-6 py-20 max-w-5xl mx-auto text-center">
+    <h2 class="text-7xl font-black text-yellow-500 mb-8 glow-text">🎥 Video Search</h2>
+    <p class="text-3xl text-gray-700 mb-12 font-bold">What do you want to watch today?</p>
+
+    <!-- YouTube Search Bar -->
+    <div class="max-w-3xl mx-auto game-container p-8 shadow-2xl">
+      <h3 class="text-2xl font-bold mb-6 text-gray-600">Find cool videos on YouTube:</h3>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <input type="text" id="youtube-search" placeholder="Search for space, animals, or cartoons..." class="flex-1 p-6 rounded-2xl border-4 border-yellow-200 focus:border-yellow-500 outline-none text-2xl font-bold shadow-inner">
+        <button onclick="searchYouTube()" class="button button-yellow text-2xl px-12 py-6">🔍 Search</button>
+      </div>
+      <p class="mt-6 text-gray-500 font-bold italic">Safe search for kids is automatically enabled! ✨</p>
     </div>
-    
   </section>
 
+  <!-- Footer -->
+  <footer class="bg-white py-12 border-t-8 border-yellow-400 text-center mt-auto">
+    <div class="max-w-md mx-auto">
+      <p class="text-2xl font-black text-pink-600 mb-2">🌍 Kids Online World</p>
+      <p class="text-gray-500 font-bold">© 2025 | Made with ❤️ by Vivu ✨</p>
+    </div>
+  </footer>
+
   <script>
-    const searchButton = document.getElementById('search-button');
-    const searchQuery = document.getElementById('search-query');
-    
-    // IMPORTANT: Replace with your own YouTube Data API key
-    const API_KEY = 'YOUR_API_KEY'; 
-
-    searchButton.addEventListener('click', performSearch);
-    searchQuery.addEventListener('keyup', (event) => {
-      if (event.key === 'Enter') {
-        performSearch();
-      }
-    });
-
-    function performSearch() {
-      if (API_KEY === 'YOUR_API_KEY') {
-        alert('Please replace \'YOUR_API_KEY\' with your own YouTube Data API key in kow-videos.html to enable video search.');
-        return;
-      }
-      const query = searchQuery.value;
+    function searchYouTube() {
+      const query = document.getElementById('youtube-search').value;
       if (query) {
-        const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-        window.open(youtubeSearchUrl, '_blank');
+        window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(query + ' for kids')}`, '_blank');
       }
     }
+
+    document.getElementById('menu-button').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
+    });
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
   </script>
 </body>
 </html>
