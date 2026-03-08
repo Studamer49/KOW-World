@@ -65,9 +65,16 @@
 
     <div>
       <h3 class="text-2xl font-black text-blue-600 mb-4 glow-text">📰 All Current Articles</h3>
-      <div id="news-list" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+      <div id="news-list" class="space-y-3 max-h-[400px] overflow-y-auto pr-2">
         <!-- All news list -->
       </div>
+      
+      <div class="mt-8 p-4 bg-blue-100 rounded-2xl border-4 border-blue-200">
+        <h4 class="text-lg font-black text-blue-700 mb-2">🚀 Update GitHub News</h4>
+        <p class="text-sm text-blue-600 mb-4">Add your news here first, then click the button below to copy the code. Paste it into your <b>news/news.json</b> file and push to GitHub!</p>
+        <button onclick="exportNews()" class="button button-blue w-full">📋 Copy News JSON for GitHub</button>
+      </div>
+
       <button onclick="resetNews()" class="mt-6 text-red-500 font-bold hover:underline text-sm block">♻️ Reset to Original System Articles</button>
     </div>
   </div>
@@ -145,6 +152,16 @@
         localStorage.setItem('kow_all_news', JSON.stringify(defaultSystemArticles));
         loadNewsList();
       }
+    }
+
+    function exportNews() {
+      const newsList = localStorage.getItem('kow_all_news') || '[]';
+      navigator.clipboard.writeText(newsList).then(() => {
+        alert("JSON Copied to clipboard! Now paste it into news/news.json and push to GitHub.");
+      }).catch(err => {
+        console.error('Could not copy text: ', err);
+        alert("Failed to copy. Check console.");
+      });
     }
 
     // Sidebar Logic

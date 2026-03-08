@@ -167,14 +167,48 @@
     document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(btn => btn.style.display = 'none');
 
     // Load News
-    const allNews = JSON.parse(localStorage.getItem('kow_all_news') || '[]');
-    allNews.forEach(item => {
-        if (item.type === 'short') {
-            renderArticle(item, 'short-news-container');
-        } else {
-            renderArticle(item, 'long-news-container');
+    async function loadNews() {
+        let allNews = [];
+        
+        // Try to fetch from news.json (GitHub version)
+        try {
+            const response = await fetch('news/news.json');
+            if (response.ok) {
+                const githubNews = await response.json();
+                allNews = [...githubNews];
+            }
+        } catch (e) {
+            console.warn("Could not load news/news.json. Using local storage only.", e);
         }
-    });
+
+        // Add local storage news (Editor version)
+        const localNews = JSON.parse(localStorage.getItem('kow_all_news') || '[]');
+        
+        // Filter out duplicates if any (by title)
+        const titles = new Set(allNews.map(n => n.title));
+        localNews.forEach(item => {
+            if (!titles.has(item.title)) {
+                allNews.unshift(item); // Add local news to the top
+            }
+        });
+
+        // If still empty, use defaults
+        if (allNews.length === 0) {
+            allNews = [
+                { type: 'long', emoji: '🚀', title: 'Welcome to KOW News!', content: 'Check back soon for more stories!', date: new Date().toLocaleDateString() }
+            ];
+        }
+
+        allNews.forEach(item => {
+            if (item.type === 'short') {
+                renderArticle(item, 'short-news-container');
+            } else {
+                renderArticle(item, 'long-news-container');
+            }
+        });
+    }
+
+    loadNews();
   </script>
 </body>
 </html>
