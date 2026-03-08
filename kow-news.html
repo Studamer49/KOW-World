@@ -172,7 +172,8 @@
         
         // Try to fetch from news.json (GitHub version)
         try {
-            const response = await fetch('news/news.json');
+            // Using ./ makes it relative to the current folder
+            const response = await fetch('./news/news.json'); 
             if (response.ok) {
                 const githubNews = await response.json();
                 allNews = [...githubNews];
